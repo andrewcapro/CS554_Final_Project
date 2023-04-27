@@ -7,6 +7,11 @@ import {
   Routes
 } from 'react-router-dom';
 import Home from './components/Home';
+import { Button } from '@mui/material';
+import CreateWorkout from './components/CreateWorkout';
+import Login from './components/Login';
+import CreatePost from './components/CreatePost';
+import PostFeed from './components/PostFeed';
 
 function App() {
   return (
@@ -17,13 +22,39 @@ function App() {
             LiftTrek
           </h1>
           <nav>
-            <NavLink className='navlink' to='/'>
-              Home
-            </NavLink>
+            <Button>
+              <NavLink className='navlink' to='/'>
+                Home
+              </NavLink>
+            </Button>
+            <Button>
+              <NavLink className='navlink' to='/feed'>
+                View Feed
+              </NavLink>
+            </Button>
+            <Button>
+              <NavLink className='navlink' to='/createworkout'>
+                Create Workout
+              </NavLink>
+            </Button>
+            <Button>
+              <NavLink className='navlink' to='/createpost'>
+                Create Post
+              </NavLink>
+            </Button>
+            <Button>
+              <NavLink className='navlink' to='/login'>
+                Login
+              </NavLink>
+            </Button>
           </nav>
         </header>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/feed' element={<PostFeed />} />
+          <Route path='/createworkout' element={<CreateWorkout />} />
+          <Route path='/createpost' element={<CreatePost />} />
         </Routes>
       </div>
     </Router>
