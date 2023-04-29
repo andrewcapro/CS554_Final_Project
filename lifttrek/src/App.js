@@ -12,6 +12,7 @@ import CreateWorkout from './components/CreateWorkout';
 import Login from './components/Login';
 import CreatePost from './components/CreatePost';
 import PostFeed from './components/PostFeed';
+import DisplayWorkout from './components/DisplayWorkout';
 
 function App() {
   return (
@@ -47,6 +48,11 @@ function App() {
                 Login
               </NavLink>
             </Button>
+            <Button>
+              <NavLink className='navlink' to='/displayworkout'>
+                Test
+              </NavLink>
+            </Button>
           </nav>
         </header>
         <Routes>
@@ -55,6 +61,7 @@ function App() {
           <Route path='/feed' element={<PostFeed />} />
           <Route path='/createworkout' element={<CreateWorkout />} />
           <Route path='/createpost' element={<CreatePost />} />
+          <Route path='/displayworkout' element={<DisplayWorkout/>} />
         </Routes>
       </div>
     </Router>

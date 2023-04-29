@@ -3,4 +3,30 @@ a {
   color: blue;
 }
 
- a:focus { text-decoration: none; color:teal; }
+a:focus { text-decoration: none; color:teal; }
+
+#displayWorkout {
+  width: 800px;
+  background-color:antiquewhite;
+  border-radius: 15px;
+  border: 1px solid #ecd7b7;
+  box-shadow: 5px 3px #ecd7b7;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+#headerWorkout {
+  text-align: center;
+}
+
+.containerWorkout {
+  display: flex;
+  justify-content: center;
+}
+
+
+#blueButton {
+  border-radius: 10px;
+  background-color: #5082af;
+}
