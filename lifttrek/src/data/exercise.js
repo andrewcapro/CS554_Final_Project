@@ -63,16 +63,16 @@ async function getExercises(pageNum, exerciseType = '', muscle = '', difficulty 
 
 //for testing
 
-async function main(){
-    try {
-        let exercises = await getExercises(0, 'strength', 'biceps', 'beginner');
-        console.log(exercises);
-    } catch (e){
-        console.log(e);
-    }
-}
+// async function main(){
+//     try {
+//         let exercises = await getExercises(0, 'strength', 'biceps', 'beginner');
+//         console.log(exercises);
+//     } catch (e){
+//         console.log(e);
+//     }
+// }
 
-main();
+// main();
 
 module.exports = {
     getExercises
