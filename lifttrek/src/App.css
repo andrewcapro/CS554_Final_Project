@@ -1,6 +1,17 @@
 a { 
   text-decoration: none; 
-  color: blue;
+  color: white;
+}
+
+.appHeader {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.appTitle {
+  margin-right: 25px;
 }
 
 a:focus { text-decoration: none; color:teal; }
@@ -25,8 +36,16 @@ a:focus { text-decoration: none; color:teal; }
   justify-content: center;
 }
 
-
 #blueButton {
   border-radius: 10px;
   background-color: #5082af;
+}
+
+#submitButton {
+  border-radius: 10px;
+  background-color: #AF5082;
+}
+
+#navButton {
+  background-color: #82AF50;
 }

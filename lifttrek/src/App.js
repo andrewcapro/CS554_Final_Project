@@ -7,7 +7,7 @@ import {
   Routes
 } from 'react-router-dom';
 import Home from './components/Home';
-import { Button } from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
 import CreateWorkout from './components/CreateWorkout';
 import Login from './components/Login';
 import CreatePost from './components/CreatePost';
@@ -18,41 +18,43 @@ function App() {
   return (
     <Router>
       <div>
-        <header className='App-header'>
-          <h1 className='App-title'>
+        <header className='appHeader'>
+          <h1 className='appTitle'>
             LiftTrek
           </h1>
           <nav>
-            <Button>
-              <NavLink className='navlink' to='/'>
-                Home
-              </NavLink>
-            </Button>
-            <Button>
-              <NavLink className='navlink' to='/feed'>
-                View Feed
-              </NavLink>
-            </Button>
-            <Button>
-              <NavLink className='navlink' to='/createworkout'>
-                Create Workout
-              </NavLink>
-            </Button>
-            <Button>
-              <NavLink className='navlink' to='/createpost'>
-                Create Post
-              </NavLink>
-            </Button>
-            <Button>
-              <NavLink className='navlink' to='/login'>
-                Login
-              </NavLink>
-            </Button>
-            <Button>
-              <NavLink className='navlink' to='/displayworkout'>
-                Test
-              </NavLink>
-            </Button>
+            <ButtonGroup id='navGroup' variant='outlined'>
+              <Button id='navButton' variant='contained'>
+                <NavLink to='/'>
+                  Home
+                </NavLink>
+              </Button>
+              <Button id='navButton' variant='contained'>
+                <NavLink to='/feed'>
+                  View Feed
+                </NavLink>
+              </Button>
+              <Button id='navButton' variant='contained'>
+                <NavLink to='/createworkout'>
+                  Create Workout
+                </NavLink>
+              </Button>
+              <Button id='navButton' variant='contained'>
+                <NavLink to='/createpost'>
+                  Create Post
+                </NavLink>
+              </Button>
+              <Button id='navButton' variant='contained'>
+                <NavLink to='/login'>
+                  Login
+                </NavLink>
+              </Button>
+              <Button id='navButton' variant='contained'>
+                <NavLink to='/displayworkout'>
+                  Test
+                </NavLink>
+              </Button>
+            </ButtonGroup>
           </nav>
         </header>
         <Routes>

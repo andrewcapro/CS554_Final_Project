@@ -48,7 +48,8 @@ function Random() {
         </Select>
       </FormControl>
       <br/>
-      <Button style={{marginLeft: '10px'}} id='blueButton' variant='contained'>Randomize</Button>
+      <br/>
+      <Button style={{marginLeft: '10px'}} id='submitButton' variant='contained'>Randomize</Button>
     </div>
   )
 }

@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { FormControl, MenuItem, InputLabel, Select, Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 function Custom({ formData, handleExerciseTypeChange, handleMuscleChange, handleDifficultyChange, handleExerciseChange }) {
   const { exerciseType, muscle, difficulty, exercise } = formData;
@@ -95,11 +99,17 @@ function FormContainer() {
     setFormDataList(newList);
   }
 
+  function handleSubmit() {
+    const selectedExercises = formDataList.map((formData) => formData.exercise);
+    console.log(selectedExercises);
+  }
+  
+
   return (
     <div>
       <h3 style={{ marginLeft: '10px' }}>Custom</h3>
       {formDataList.map((formData, index) => (
-        <div key={index}>
+        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
           <Custom 
             formData={formData} 
             handleExerciseTypeChange={(event) => handleExerciseTypeChange(event, index)}
@@ -107,16 +117,25 @@ function FormContainer() {
             handleDifficultyChange={(event) => handleDifficultyChange(event, index)}
             handleExerciseChange={(event) => handleExerciseChange(event, index)}
           />
-          <Button variant="outlined" style={{ marginLeft: '10px', marginBottom: '15px' }} onClick={() => handleRemoveForm(index)}>
-            Remove Exercise
-          </Button>
+          <Tooltip title="Delete">
+            <IconButton style={{ display: 'inline-block' }} onClick={() => handleRemoveForm(index)}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </div>
       ))}
       <br />
-      <Button style={{ marginLeft: '10px' }} id="blueButton" variant="contained" onClick={handleAddForm}>
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<AddIcon />}
+        style={{ marginLeft: '10px' }}
+        onClick={handleAddForm}
+        id="blueButton"
+      >
         Add Exercise
       </Button>
-      <Button style={{ marginLeft: '10px' }} id="blueButton" variant="contained">
+      <Button style={{ marginLeft: '10px' }} id="submitButton" variant="contained" onClick={handleSubmit}>
         Submit Workout
       </Button>
     </div>
