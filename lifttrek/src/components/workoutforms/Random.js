@@ -6,10 +6,10 @@ function Random() {
     <div>
       <h3 style={{marginLeft: '10px'}}>Random</h3>
       <FormControl sx={{ m: 1, minWidth: 150 }}>
-        <InputLabel id="demo-simple-select-label">Type</InputLabel>
+        <InputLabel id="demo-simple-select-label">Exercise Type</InputLabel>
         <Select
-          // value={age}
-          label="Type"
+          value='any'
+          label="exerciseType"
           // onChange={handleChange}
         >
           <MenuItem value='any'>Any</MenuItem>
@@ -22,7 +22,7 @@ function Random() {
       <FormControl sx={{ m: 1, minWidth: 150 }}>
         <InputLabel id="demo-simple-select-label">Catagory</InputLabel>
         <Select
-          // value={age}
+          value='any'
           label="Catagory"
           // onChange={handleChange}
         >
@@ -37,7 +37,7 @@ function Random() {
       <FormControl sx={{ m: 1, minWidth: 150 }}>
         <InputLabel>Difficulty</InputLabel>
         <Select
-          // value={age}
+          value='any'
           label="Difficulty"
           // onChange={handleChange}
         >

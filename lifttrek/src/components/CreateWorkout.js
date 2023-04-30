@@ -11,8 +11,8 @@ function CreateWorkout() {
         <div>
             <div>
                 <h2>Create Workout</h2>     
-                <Button onClick={() => {setType('custom')}} variant='contained' id='blueButton'>Custom</Button>
-                <Button onClick={() => {setType('random')}} variant='contained' id='blueButton'>Randomized</Button>
+                <Button style={{ marginLeft: '10px' }} onClick={() => {setType('custom')}} variant='contained' id='blueButton'>Custom</Button>
+                <Button style={{ marginLeft: '10px' }} onClick={() => {setType('random')}} variant='contained' id='blueButton'>Randomized</Button>
             </div>
             <div>
                 {type === 'custom'
