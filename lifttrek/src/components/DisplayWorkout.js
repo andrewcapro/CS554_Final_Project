@@ -34,7 +34,7 @@ function DisplayWorkout() {
   return (
     <div className='containerWorkout'>
       <div id='displayWorkout'>
-        <div id='headerWorkout'>
+        <div class='headerWorkout'>
           <h3>{test.title}</h3>
           <h4>Created by: {test.userwhopostedit}</h4>
           <h4>Exercises:</h4>
@@ -55,7 +55,7 @@ function DisplayWorkout() {
         })}
         </ul>
         <br/>
-        <div id='headerWorkout'>
+        <div class='headerWorkout'>
           <Button style={{
               fontSize: "18px"
           }}

@@ -79,7 +79,7 @@ function Random() {
         style={{ marginLeft: '10px' }}
         variant="contained"
         onClick={handleRandomize}
-        id="blueButton"
+        id="blueButton3"
       >
         Randomize
       </Button>
