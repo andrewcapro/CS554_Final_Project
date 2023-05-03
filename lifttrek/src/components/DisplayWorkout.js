@@ -65,7 +65,7 @@ function DisplayWorkout() {
               fontSize: "18px",
               marginLeft: "5px"
           }}
-          id='blueButton'
+          id='blueButton2'
           variant='contained'>Post Workout</Button>
         </div>
       </div>

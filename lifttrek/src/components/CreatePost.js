@@ -28,7 +28,7 @@ function CreatePost() {
     document.getElementById("Image").value = "";
     console.log("Not yet implemented, but here's the submitted data");
     console.log(imagePostformData)
-    setImagePostFormData({});
+    setImagePostFormData({})
   }
 
 
@@ -36,7 +36,7 @@ function CreatePost() {
     <div>
         <h2>Create Post</h2>
         <Button style={{ marginLeft: '10px' }} onClick={() => {setType('text')}} variant='contained' id='blueButton'>Text Post</Button>
-        <Button style={{ marginLeft: '10px' }} onClick={() => {setType('image')}} variant='contained' id='blueButton'>Image Post</Button>
+        <Button style={{ marginLeft: '10px' }} onClick={() => {setType('image')}} variant='contained' id='blueButton2'>Image Post</Button>
         <br></br>
         <br></br>
         <br></br>

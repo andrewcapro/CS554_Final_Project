@@ -41,6 +41,11 @@ a:focus { text-decoration: none; color:teal; }
   background-color: #5082af;
 }
 
+#blueButton2 {
+  border-radius: 10px;
+  background-color: #5082af;
+}
+
 #submitButton {
   border-radius: 10px;
   background-color: #AF5082;
