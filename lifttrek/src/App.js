@@ -13,6 +13,7 @@ import Login from './components/Login';
 import CreatePost from './components/CreatePost';
 import PostFeed from './components/PostFeed';
 import DisplayWorkout from './components/DisplayWorkout';
+import DisplayPost from './components/DisplayPost'
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
           <Route path='/createworkout' element={<CreateWorkout />} />
           <Route path='/createpost' element={<CreatePost />} />
           <Route path='/displayworkout' element={<DisplayWorkout/>} />
+          <Route path='/post/:id' element={<DisplayPost/>}></Route>
         </Routes>
       </div>
     </Router>
