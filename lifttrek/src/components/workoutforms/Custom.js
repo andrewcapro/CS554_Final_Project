@@ -131,7 +131,7 @@ function FormContainer() {
         startIcon={<AddIcon />}
         style={{ marginLeft: '10px' }}
         onClick={handleAddForm}
-        id="blueButton"
+        id="blueButton3"
       >
         Add Exercise
       </Button>

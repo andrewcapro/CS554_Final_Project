@@ -24,35 +24,23 @@ function App() {
           </h1>
           <nav>
             <ButtonGroup id='navGroup' variant='outlined'>
-              <Button id='navButton' variant='contained'>
-                <NavLink to='/'>
+              <Button component={NavLink} to={'/'} id='navButton' variant='contained'>
                   Home
-                </NavLink>
               </Button>
-              <Button id='navButton' variant='contained'>
-                <NavLink to='/feed'>
+              <Button component={NavLink} to={'/feed'} id='navButton2' variant='contained'>
                   View Feed
-                </NavLink>
               </Button>
-              <Button id='navButton' variant='contained'>
-                <NavLink to='/createworkout'>
+              <Button component={NavLink} to={"/createworkout"}id='navButton3' variant='contained'>
                   Create Workout
-                </NavLink>
               </Button>
-              <Button id='navButton' variant='contained'>
-                <NavLink to='/createpost'>
+              <Button component={NavLink} to={"/createpost"}id='navButton4' variant='contained'>
                   Create Post
-                </NavLink>
               </Button>
-              <Button id='navButton' variant='contained'>
-                <NavLink to='/login'>
+              <Button component={NavLink} to={"/login"}id='navButton5' variant='contained'>
                   Login
-                </NavLink>
               </Button>
-              <Button id='navButton' variant='contained'>
-                <NavLink to='/displayworkout'>
+              <Button component={NavLink} to={"/displayworkout"}id='navButton6' variant='contained'>
                   Test
-                </NavLink>
               </Button>
             </ButtonGroup>
           </nav>

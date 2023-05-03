@@ -62,7 +62,10 @@ function CreatePost() {
             </label>
             <br></br>
             <br></br>
-            <button onClick={createTextPost}>Create Post</button>
+            <br></br>
+            <Button style={{ marginLeft: '10px' }} id="submitButton" variant="contained" onClick={createTextPost}>
+              Create Post
+            </Button>
           </div>}
           {type === "image" && <div>
             <label>Title: 
@@ -86,7 +89,9 @@ function CreatePost() {
             </label>
             <br></br>
             <br></br>
-            <button onClick={createImagePost}>Create Post</button>
+            <Button style={{ marginLeft: '10px' }} id="submitButton2" variant="contained" onClick={createImagePost}>
+              Create Post
+            </Button>
           </div>}
     </div>
   )
