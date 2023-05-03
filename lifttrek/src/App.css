@@ -36,7 +36,7 @@ a:focus { text-decoration: none; color:teal; }
   justify-content: center;
 }
 
-#blueButton {
+#blueButton, #blueButton2 {
   border-radius: 10px;
   background-color: #5082af;
 }
