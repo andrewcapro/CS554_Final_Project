@@ -9,12 +9,14 @@ function CreateWorkout() {
 
     return (
         <div>
-            <div>
-                <h2>Create Workout</h2>     
-                <Button style={{ marginLeft: '10px' }} onClick={() => {setType('custom')}} variant='contained' id='blueButton'>Custom</Button>
-                <Button style={{ marginLeft: '10px' }} onClick={() => {setType('random')}} variant='contained' id='blueButton'>Randomized</Button>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} className='createWrapper'>
+                <h2>Create Workout</h2>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button onClick={() => {setType('custom')}} variant='contained' id='blueButton'>Custom</Button>
+                    <Button style={{ marginLeft: '10px' }} onClick={() => {setType('random')}} variant='contained' id='blueButton'>Randomized</Button>
+                </div>
             </div>
-            <div>
+            <div className='createWrapper'>
                 {type === 'custom'
                 ?   <Custom />
                 :   <></>
