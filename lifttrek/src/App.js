@@ -68,7 +68,7 @@ function App() {
               <Route path="/displayworkout" element={<DisplayWorkout />} />
             </Route>
             <Route path='/post/:id' element={<PrivateRoute/>}>
-              <Route path='/post/:id' element={<DisplayPost/>}>
+              <Route path='/post/:id' element={<DisplayPost/>}/>
             </Route>
             {/* <Route path="/feed" element={<PrivateRoute />} />
             <Route path="/feed" element={<PostFeed />} />

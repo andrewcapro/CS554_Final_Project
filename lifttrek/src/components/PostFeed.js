@@ -1,20 +1,32 @@
 import React, {useState, useEffect} from 'react'
-import { Grid, Button, Card, CardContent, CardActionArea, Typography } from '@mui/material'
+import { Grid, Button, Card, CardMedia, CardContent, CardActionArea, Typography } from '@mui/material'
 import {Link} from 'react-router-dom';
 
 
 function PostFeed() {
   const [page, setPage] = useState(1)
   const [posts, setPosts] = useState([])
+  const [lastPage, setLastPage] = useState(false);
 
   //TODO: make this function get actually data, not test junk
   useEffect(() => { async function fetchData(){
       let testData = []
       let i = 0;
-      for(i = 0; i<15; i++){
-        testData.push({id: i, userThatPosted: {name: "user"+i, id: i+100}, title: "Test"});
+      for(i = 0; i<23; i++){
+        if(i%3===0){
+          testData.push({id: i, userThatPosted: {name: "user"+i, id: i+100}, title: "Test", image: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"});
+        }
+        else{
+          testData.push({id: i, userThatPosted: {name: "user"+i, id: i+100}, title: "Test"});
+        }
       }
       setPosts(testData.slice((page-1)*10, page*10))
+      if(testData.slice(page*10, (page+1)*10).length===0){
+        setLastPage(true)
+      }
+      else{
+        setLastPage(false);
+      }
     }
     fetchData();
   }, [page])
@@ -60,6 +72,15 @@ function PostFeed() {
                 >
                   {item.title}
                 </Typography>
+                {item.image && <CardMedia
+                    sx={{
+                      height: '100%',
+                      width: '100%'
+                    }}
+                    component='img'
+                    image={item.image}
+                    title='item image'
+                  />}
                 <Typography variant='body2' color='textSecondary' component='p'>
                   {item.userThatPosted.name}
                 </Typography>
@@ -79,9 +100,9 @@ let cards = posts.map((post) => {
       {page>1 && <Button onClick={decrementPage}>
           Previous Page
         </Button>}
-      <Button onClick={incrementPage}>
+      {!lastPage && <Button onClick={incrementPage}>
           Next Page
-      </Button>
+      </Button>}
       <br></br>
       <br></br>
       <br></br>
