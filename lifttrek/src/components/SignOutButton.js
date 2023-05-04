@@ -10,7 +10,7 @@ const SignOutButton = () => {
     const handleSignOut = async (event) => {
         try {
             app.auth().signOut()
-            navigate("/home")
+            navigate("/")
         } catch(e){
             console.log(e);
             alert(e);

@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react';
 import {useNavigate, Navigate, Redirect} from 'react-router-dom'
 import {AuthContext} from '../firebase/Auth'
 import app from '../firebase/firebase';
+import axios from "axios";
 
 
 function SignUp() {
@@ -18,7 +19,8 @@ function SignUp() {
         }
 
         try{
-            await app.auth().createUserWithEmailAndPassword(email.value, passwordOne.value, userName)
+            let ret = await app.auth().createUserWithEmailAndPassword(email.value, passwordOne.value, userName)
+            await axios.post("http://localhost:4000/users/", {id: ret.user.uid, username: userName.value, email: email.value});
             navigate("/login");
         } catch(e){
             console.log(e);
