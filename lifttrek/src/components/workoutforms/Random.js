@@ -1,57 +1,90 @@
-import React from 'react'
-import { FormControl, MenuItem, InputLabel, Select, Button } from '@mui/material'
+import React, { useState } from 'react';
+import {
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
+  Button
+} from '@mui/material';
 
 function Random() {
+  const [selectedOptions, setSelectedOptions] = useState({
+    exerciseType: 'any',
+    category: 'any',
+    difficulty: 'any'
+  });
+
+  const handleChange = (event) => {
+    setSelectedOptions({
+      ...selectedOptions,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  const handleRandomize = () => {
+    console.log(selectedOptions); // or do whatever you need to do with the selected options
+  };
+
   return (
     <div>
-      <h3 style={{marginLeft: '10px'}}>Random</h3>
+      <h3 style={{ marginLeft: '10px' }}>Random</h3>
       <FormControl sx={{ m: 1, minWidth: 150 }}>
-        <InputLabel id="demo-simple-select-label">Exercise Type</InputLabel>
+        <InputLabel id="exerciseType-label">Exercise Type</InputLabel>
         <Select
-          value='any'
-          label="exerciseType"
-          // onChange={handleChange}
+          name="exerciseType"
+          value={selectedOptions.exerciseType}
+          label="exerciseType" id="exerciseType-select"
+          onChange={handleChange}
         >
-          <MenuItem value='any'>Any</MenuItem>
-          <MenuItem value='powerlifting'>Powerlifting</MenuItem>
-          <MenuItem value='strength'>Strength</MenuItem>
-          <MenuItem value='olyimpic_weightlifting'>Olyimpic Weightlifting</MenuItem>
-          <MenuItem value='strongmna'>Strongman</MenuItem>
+          <MenuItem value="any">Any</MenuItem>
+          <MenuItem value="powerlifting">Powerlifting</MenuItem>
+          <MenuItem value="strength">Strength</MenuItem>
+          <MenuItem value="olympic_weightlifting">Olympic Weightlifting</MenuItem>
+          <MenuItem value="strongman">Strongman</MenuItem>
         </Select>
       </FormControl>
       <FormControl sx={{ m: 1, minWidth: 150 }}>
-        <InputLabel id="demo-simple-select-label">Catagory</InputLabel>
+        <InputLabel id="category-label">Category</InputLabel>
         <Select
-          value='any'
-          label="Catagory"
-          // onChange={handleChange}
+          name="category"
+          value={selectedOptions.category}
+          label="category" id="catagory"
+          onChange={handleChange}
         >
-          <MenuItem value='any'>Any</MenuItem>
-          <MenuItem value='push'>Push</MenuItem>
-          <MenuItem value='pull'>Pull</MenuItem>
-          <MenuItem value='legs'>Legs</MenuItem>
-          <MenuItem value='upper'>Upper</MenuItem>
-          <MenuItem value='lower'>Lower</MenuItem>
+          <MenuItem value="any">Any</MenuItem>
+          <MenuItem value="push">Push</MenuItem>
+          <MenuItem value="pull">Pull</MenuItem>
+          <MenuItem value="legs">Legs</MenuItem>
+          <MenuItem value="upper">Upper</MenuItem>
+          <MenuItem value="lower">Lower</MenuItem>
         </Select>
       </FormControl>
       <FormControl sx={{ m: 1, minWidth: 150 }}>
-        <InputLabel>Difficulty</InputLabel>
+        <InputLabel id="difficulty-label">Difficulty</InputLabel>
         <Select
-          value='any'
-          label="Difficulty"
-          // onChange={handleChange}
+          name="difficulty"
+          value={selectedOptions.difficulty}
+          label="difficulty" id="difficulty"
+          onChange={handleChange}
         >
-          <MenuItem value='any'>Any</MenuItem>
-          <MenuItem value='beginner'>Beginner</MenuItem>
-          <MenuItem value='intermediate'>Intermediate</MenuItem>
-          <MenuItem value='expert'>Expert</MenuItem>
+          <MenuItem value="any">Any</MenuItem>
+          <MenuItem value="beginner">Beginner</MenuItem>
+          <MenuItem value="intermediate">Intermediate</MenuItem>
+          <MenuItem value="expert">Expert</MenuItem>
         </Select>
       </FormControl>
-      <br/>
-      <br/>
-      <Button style={{marginLeft: '10px'}} id='submitButton' variant='contained'>Randomize</Button>
+      <br />
+      <br />
+      <Button
+        style={{ marginLeft: '10px' }}
+        variant="contained"
+        onClick={handleRandomize}
+        id="blueButton3"
+      >
+        Randomize
+      </Button>
     </div>
-  )
+  );
 }
 
-export default Random
+export default Random;

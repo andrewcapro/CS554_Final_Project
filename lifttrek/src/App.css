@@ -27,7 +27,7 @@ a:focus { text-decoration: none; color:teal; }
   padding-bottom: 10px;
 }
 
-#headerWorkout {
+.headerWorkout {
   text-align: center;
 }
 
@@ -36,16 +36,22 @@ a:focus { text-decoration: none; color:teal; }
   justify-content: center;
 }
 
-#blueButton {
+#blueButton, #blueButton2, #blueButton3 {
   border-radius: 10px;
   background-color: #5082af;
 }
 
-#submitButton {
+#submitButton, #submitButton2 {
   border-radius: 10px;
   background-color: #AF5082;
 }
 
-#navButton {
+#navButton, #navButton2, #navButton3, #navButton4, #navButton5, #navButton6 {
   background-color: #82AF50;
+}
+
+.createWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
