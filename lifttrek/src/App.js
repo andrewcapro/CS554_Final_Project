@@ -1,62 +1,85 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 import {
   NavLink,
   BrowserRouter as Router,
   Route,
-  Routes
-} from 'react-router-dom';
-import Home from './components/Home';
-import { Button, ButtonGroup } from '@mui/material';
-import CreateWorkout from './components/CreateWorkout';
-import Login from './components/Login';
-import CreatePost from './components/CreatePost';
-import PostFeed from './components/PostFeed';
-import DisplayWorkout from './components/DisplayWorkout';
+  Routes,
+} from "react-router-dom";
+import Home from "./components/Home";
+import { Button, ButtonGroup } from "@mui/material";
+import CreateWorkout from "./components/CreateWorkout";
+import Login from "./components/Login";
+import CreatePost from "./components/CreatePost";
+import PostFeed from "./components/PostFeed";
+import DisplayWorkout from "./components/DisplayWorkout";
 import DisplayPost from './components/DisplayPost'
+import SignUp from "./components/SignUp";
+import Navigation from "./components/Navigation";
+import { AuthProvider } from "./firebase/Auth";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
-    <Router>
-      <div>
-        <header className='appHeader'>
-          <h1 className='appTitle'>
-            LiftTrek
-          </h1>
-          <nav>
-            <ButtonGroup id='navGroup' variant='outlined'>
-              <Button component={NavLink} to={'/'} id='navButton' variant='contained'>
-                  Home
-              </Button>
-              <Button component={NavLink} to={'/feed'} id='navButton2' variant='contained'>
-                  View Feed
-              </Button>
-              <Button component={NavLink} to={"/createworkout"}id='navButton3' variant='contained'>
-                  Create Workout
-              </Button>
-              <Button component={NavLink} to={"/createpost"}id='navButton4' variant='contained'>
-                  Create Post
-              </Button>
-              <Button component={NavLink} to={"/login"}id='navButton5' variant='contained'>
-                  Login
-              </Button>
-              <Button component={NavLink} to={"/displayworkout"}id='navButton6' variant='contained'>
-                  Test
-              </Button>
-            </ButtonGroup>
-          </nav>
-        </header>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/feed' element={<PostFeed />} />
-          <Route path='/createworkout' element={<CreateWorkout />} />
-          <Route path='/createpost' element={<CreatePost />} />
-          <Route path='/displayworkout' element={<DisplayWorkout/>} />
-          <Route path='/post/:id' element={<DisplayPost/>}></Route>
-        </Routes>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div>
+          <header className="appHeader">
+            <h1 className="appTitle">LiftTrek</h1>
+            {/* <nav>
+              <ButtonGroup id="navGroup" variant="outlined">
+                <Button id="navButton" variant="contained">
+                  <NavLink to="/">Home</NavLink>
+                </Button>
+                <Button id="navButton" variant="contained">
+                  <NavLink to="/feed">View Feed</NavLink>
+                </Button>
+                <Button id="navButton" variant="contained">
+                  <NavLink to="/createworkout">Create Workout</NavLink>
+                </Button>
+                <Button id="navButton" variant="contained">
+                  <NavLink to="/createpost">Create Post</NavLink>
+                </Button>
+                <Button id="navButton" variant="contained">
+                  <NavLink to="/login">Login</NavLink>
+                </Button>
+                <Button id="navButton" variant="contained">
+                  <NavLink to="/displayworkout">Test</NavLink>
+                </Button>
+              </ButtonGroup>
+            </nav> */}
+            <Navigation/>
+          </header>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            
+            <Route path="/feed" element={<PrivateRoute />}>
+              <Route path="/feed" element={<PostFeed />} />
+            </Route>
+            <Route path="/createworkout" element={<PrivateRoute />}>
+              <Route path="/createworkout" element={<CreateWorkout />} />
+            </Route>
+            <Route path="/createpost" element={<PrivateRoute />}>
+              <Route path="/createpost" element={<CreatePost />} />
+            </Route>
+            <Route path="/displayworkout" element={<PrivateRoute />}>
+              <Route path="/displayworkout" element={<DisplayWorkout />} />
+            </Route>
+            <Route path='/post/:id' element={<PrivateRoute/>}>
+              <Route path='/post/:id' element={<DisplayPost/>}>
+            </Route>
+            {/* <Route path="/feed" element={<PrivateRoute />} />
+            <Route path="/feed" element={<PostFeed />} />
+            </Route> */}
+            {/* <Route path="/createworkout" element={<CreateWorkout />} />
+            <Route path="/createpost" element={<CreatePost />} />
+            <Route path="/displayworkout" element={<DisplayWorkout />} /> */}
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
