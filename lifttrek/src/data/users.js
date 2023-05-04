@@ -1,5 +1,4 @@
 //Functions to store some user info
-const { ViewModuleSharp } = require("@mui/icons-material");
 const redis = require("redis");
 const client = redis.createClient();
 client.connect().then(() => {});
