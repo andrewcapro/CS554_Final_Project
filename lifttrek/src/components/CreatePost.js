@@ -12,10 +12,15 @@ function CreatePost() {
   };
 
   const handleImagePostChange = (e) => {
-    setImagePostFormData((prev) => ({...prev, [e.target.name]: e.target.value}));
+    if(e.target.name === "image"){
+      setImagePostFormData((prev) => ({...prev, [e.target.name]: e.target.files[0].name}));
+    }
+    else{
+      setImagePostFormData((prev) => ({...prev, [e.target.name]: e.target.value}));
+    }
   };
 
-  const createTextPost = () => {
+  const makeTextPost = () => {
     document.getElementById("Title1").value = "";
     document.getElementById("Body1").value = "";
     console.log("Not yet implemented, but here's the submitted data");
@@ -23,7 +28,7 @@ function CreatePost() {
     setTextPostFormData({});
   }
 
-  const createImagePost = () => {
+  const makeImagePost = () => {
     document.getElementById("Title2").value = "";
     document.getElementById("Image").value = "";
     console.log("Not yet implemented, but here's the submitted data");
@@ -63,7 +68,7 @@ function CreatePost() {
             <br></br>
             <br></br>
             <br></br>
-            <Button style={{ marginLeft: '10px' }} id="submitButton" variant="contained" onClick={createTextPost}>
+            <Button style={{ marginLeft: '10px' }} id="submitButton" variant="contained" onClick={makeTextPost}>
               Create Post
             </Button>
           </div>}
@@ -89,7 +94,7 @@ function CreatePost() {
             </label>
             <br></br>
             <br></br>
-            <Button style={{ marginLeft: '10px' }} id="submitButton2" variant="contained" onClick={createImagePost}>
+            <Button style={{ marginLeft: '10px' }} id="submitButton2" variant="contained" onClick={makeImagePost}>
               Create Post
             </Button>
           </div>}
