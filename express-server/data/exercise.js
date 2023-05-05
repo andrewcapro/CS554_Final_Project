@@ -3,6 +3,7 @@ const uuid = require('uuid'); //for generating _id's
 const redis = require("redis");
 const client = redis.createClient();
 const axios = require("axios");
+const helpers = require("../helpers")
 client.connect().then(() => {});
 //api key is iGRxf9pYAh83bTP5KywCyA==Hb8XgNsIPGXjcPu8
 
@@ -75,7 +76,7 @@ async function getExercises(pageNum=0, exerciseType = '', muscle = '', difficult
             console.log("Retrieving exercises from cache, from under: " + combinedName);
             let data = await client.HGETALL(combinedName);
             let answerArray = [];
-            for (exercise in data){
+            for (let exercise in data){
                 //console.log(data[exercise])
                 answerArray.push(JSON.parse(data[exercise]));
             }
@@ -171,29 +172,83 @@ async function getExercisesAuto(exerciseType='', musclesArray, difficulty=''){ /
     return answerArray;
 }
 
-async function createWorkout(workoutCreator, title, exercisesArray){ //store workout under hashset named by userIdworkouts, with odds as title and evens as workout object as a string
-    if (!userPosted) throw "Error: User ID must be provided for workout creation.";
+/**
+ * 
+ * @param {id} workoutCreatorId Id of user who created workout
+ * @param {String} title Title of the workout
+ * @param {Array<Object>} exercisesArray Array of exercise objects, containing exercise name, difficulty, type, reps, sets, instructions, and equipment.
+ * THIS FUNCTION NEEDS TO HAVE A GETUSER IMPLEMENTED TO MAKE WORKOUTCREATOR BE THE NAME OF THE USER, NOT THEIR ID
+ * @returns Workout object including id, title, workoutcreator's id, and an exercisesArray composed of exercise objects
+ */ 
+async function createWorkout(workoutCreatorId, title, exercisesArray){ //store workout under hashset named by userIdworkouts, with odds as title and evens as workout object as a string
+    if (!workoutCreatorId) throw "Error: User ID must be provided for workout creation.";
     if (!title) throw "Error: Title must be provided for workout creation.";
+    if (helpers.containsSpec(title)) throw "Error: Title cannot contain special characters.";
+    if (!helpers.containsAlpha(title)) throw "Error: Title must contain alphabetical characters.";
     if (!exercisesArray) throw "Error: Exercises must be provided for workout creation.";
     if (!Array.isArray(exercisesArray)) throw "Error: Exercises must be in an array for workout creation."
 
+    // GET USERNAME FUNCTION HERE PROBABLY
     let workout = {
-        workoutCreator: workoutCreator,
+        id: uuid.v4(),
+        workoutCreator: workoutCreatorId, //THIS PART NEEDS TO BE MODIFIED ONCE WE HAVE USERS FIGURED OUT
         title: title,
         exercises: exercisesArray
     }
 
-    let hashName = workoutCreator + "workouts";
+    let hashName = workoutCreatorId + "workouts";
 
     try {
         let workoutS = JSON.stringify(workout);
-        console.log(`Storing workout in cache under user ${workoutCreator} with title value ${title}`)
-        await client.HSET(hashName, title, workoutS)
+        console.log(`Storing workout in cache under user ${workoutCreatorId} with title value ${title}`)
+        await client.HSET(hashName, workout.id, workoutS)
     } catch (e) {
         throw e;
     }
 
     return workout; //Currently untested and no documentation
+}
+
+/**
+ * 
+ * @param {ID} workoutCreatorId User ID of who created the workout
+ * @param {ID} workoutId ID of workout
+ * @returns 
+ */
+async function getWorkout(workoutCreatorId, workoutId){
+    if (!workoutCreatorId) throw "Error: Workout creator ID must be provided for workout retrieval.";
+    if (!workoutId) throw "Error: Workout ID must be provided for workout retrieval.";
+
+    try {
+        let workout = await client.HGET(`${workoutCreatorId}workouts`, workoutId);
+        if (workout === NULL) throw "Error: Attempt to workout that does not belong to current user.";
+        return(JSON.parse(workout)); //Must parse because it is a string
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function editWorkout(workoutCreatorId, workoutId, newWorkoutObject){
+    if (!workoutCreatorId) throw "Error: Workout creator ID must be provided for workout editing.";
+    if (!workoutId) throw "Error: Workout ID must be provided for workout editing.";
+    if (!newWorkoutObject) throw "Error: Workout object must be provided for workout editing.";
+    
+    let oldWorkout = await getWorkout(workoutCreatorId, workoutId); //gets workout object
+
+    if (newWorkoutObject.title){
+        oldWorkout.title = newWorkoutObject.title;
+    }
+    if (newWorkoutObject.exercisesArray){
+        oldWorkout.exercisesArray = newWorkoutObject.exercisesArray;
+    }
+
+    try {
+        await client.HSET(`${workoutCreatorId}workouts`, workoutId, JSON.stringify(oldWorkout));
+    } catch (e) {
+        throw e;
+    }
+
+    return oldWorkout;
 }
 
 //for testing
@@ -213,5 +268,7 @@ async function createWorkout(workoutCreator, title, exercisesArray){ //store wor
 module.exports = {
     getExercises,
     createWorkout,
-    getExercisesAuto
+    getExercisesAuto,
+    getWorkout,
+    editWorkout
 }
