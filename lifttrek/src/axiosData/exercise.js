@@ -63,18 +63,18 @@ async function editWorkout(workoutCreatorId, workoutId, newWorkoutObject){
     }
 }
 
-async function main(){
-    try {
-        let exercises = await getExercisesAuto('strength', ['biceps'], 'beginner');
-        let exercises2 = await getExercises(1, 'strength', 'biceps', 'beginner')
-        let exercise3 = await createWorkout("1235452435", "Sweet Workout", exercises);
-        console.log(exercises2);
-    } catch (e){
-        console.log(e);
-    }
-}
+// async function main(){
+//     try {
+//         let exercises = await getExercisesAuto('strength', ['biceps'], 'beginner');
+//         let exercises2 = await getExercises(1, 'strength', 'biceps', 'beginner')
+//         let exercise3 = await createWorkout("1235452435", "Sweet Workout", exercises);
+//         console.log(exercises2);
+//     } catch (e){
+//         console.log(e);
+//     }
+// }
 
-main();
+// main();
 
 module.exports = {
     getExercises,
