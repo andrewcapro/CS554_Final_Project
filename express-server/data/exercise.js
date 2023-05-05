@@ -21,6 +21,16 @@ async function getExercises(pageNum=0, exerciseType = '', muscle = '', difficult
     if (exerciseType === "plyometrics") throw "Error: Plyometric workouts currently not supported for retrieval.";
     if (exerciseType === "stretching") throw "Error: Stretching workouts currently not supported for retrieval.";
 
+    if (exerciseType === 'any'){
+        exerciseType = '';
+    }
+    if (muscle === 'any'){
+        muscle = '';
+    }
+    if (difficulty === 'any'){
+        difficulty = '';
+    }
+
     let options = {
         method: 'GET',
         url: `https://api.api-ninjas.com/v1/exercises?offset=${pageNum}&type=${exerciseType}&muscle=${muscle}&difficulty=${difficulty}`,
@@ -36,7 +46,7 @@ async function getExercises(pageNum=0, exerciseType = '', muscle = '', difficult
         sets = "5"
         reps = "3"
     }
-    else if (exerciseType === "power"){
+    else if (exerciseType === "powerlifting"){
         sets = "5"
         reps = "5"
     }
@@ -112,7 +122,7 @@ async function getExercisesAuto(exerciseType='', musclesArray, difficulty=''){ /
         sets = "5"
         reps = "3"
     }
-    else if (exerciseType === "power"){
+    else if (exerciseType === "powerlifting"){
         sets = "5"
         reps = "5"
     }

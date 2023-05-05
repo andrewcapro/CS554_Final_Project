@@ -9,13 +9,13 @@ const exerciseData = data.exercises;
 
 router
     .route('/')
-    .get(async (req, res) => {
+    .post(async (req, res) => {
         try{
-            let exerciseInfo = req.params;
-            let pagenum = exerciseInfo.pagenum
-            let exerciseType = exerciseInfo.exerciseType
-            let difficulty = exerciseInfo.difficulty
-            let muscle = exerciseInfo.muscle
+            let exerciseInfo = req.body;
+            let pagenum = exerciseInfo.pagenum;
+            let exerciseType = exerciseInfo.exerciseType;
+            let difficulty = exerciseInfo.difficulty;
+            let muscle = exerciseInfo.muscle;
             console.log(req.body);
             let tenExercises = await exerciseData.getExercises(pagenum, exerciseType, muscle, difficulty);
             res.status(200).json(tenExercises);
@@ -28,12 +28,12 @@ router
 
 router
     .route('/auto')
-    .get(async (req, res) => {
+    .post(async (req, res) => {
         try{
             let exerciseInfo = req.body;
-            let exerciseType = exerciseInfo.exerciseType
-            let difficulty = exerciseInfo.difficulty
-            let muscle = exerciseInfo.muscle
+            let exerciseType = exerciseInfo.exerciseType;
+            let difficulty = exerciseInfo.difficulty;
+            let muscle = exerciseInfo.muscle;
             console.log(req.body);
             let autoExercises = await exerciseData.getExercisesAuto(exerciseType, muscle, difficulty);
             res.status(200).json(autoExercises);
@@ -49,9 +49,9 @@ router
     .post(async (req, res) => {
         try{
             let exerciseInfo = req.body;
-            let workoutCreatorId = exerciseInfo.workoutCreatorId
-            let title = exerciseInfo.title
-            let exercisesArray = exerciseInfo.exercisesArray
+            let workoutCreatorId = exerciseInfo.workoutCreatorId;
+            let title = exerciseInfo.title;
+            let exercisesArray = exerciseInfo.exercisesArray;
             console.log(req.body);
             let workout = await exerciseData.createWorkout(workoutCreatorId, title, exercisesArray);
             res.status(200).json(workout);
@@ -67,9 +67,9 @@ router
     .post(async (req, res) => {
         try{
             let exerciseInfo = req.body;
-            let workoutCreatorId = exerciseInfo.workoutCreatorId
-            let workoutId = exerciseInfo.workoutId
-            let newWorkoutObject = exerciseInfo.newWorkoutObject
+            let workoutCreatorId = exerciseInfo.workoutCreatorId;
+            let workoutId = exerciseInfo.workoutId;
+            let newWorkoutObject = exerciseInfo.newWorkoutObject;
             console.log(req.body);
             let editedWorkout = await exerciseData.editWorkout(workoutCreatorId, workoutId, newWorkoutObject);
             res.status(200).json(editedWorkout);

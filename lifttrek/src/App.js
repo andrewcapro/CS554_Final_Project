@@ -1,13 +1,11 @@
 import React from "react";
 import "./App.css";
 import {
-  NavLink,
   BrowserRouter as Router,
   Route,
   Routes,
 } from "react-router-dom";
 import Home from "./components/Home";
-import { Button, ButtonGroup } from "@mui/material";
 import CreateWorkout from "./components/CreateWorkout";
 import Login from "./components/Login";
 import CreatePost from "./components/CreatePost";

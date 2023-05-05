@@ -16,7 +16,7 @@ client.connect().then(() => {});
  */
 async function getExercises(pageNum=0, exerciseType = '', muscle = '', difficulty = ''){
     if (pageNum < 0) throw "Error: Page number for exercise retrevial cannot be less than 0 for retrieval.";
-    if (exerciseType === "cardio") throw "Error: Cardio workouts currently not supported for retrieval."
+    if (exerciseType === "cardio") throw "Error: Cardio workouts currently not supported for retrieval.";
     if (exerciseType === "plyometrics") throw "Error: Plyometric workouts currently not supported for retrieval.";
     if (exerciseType === "stretching") throw "Error: Stretching workouts currently not supported for retrieval.";
 
@@ -75,7 +75,7 @@ async function getExercises(pageNum=0, exerciseType = '', muscle = '', difficult
             console.log("Retrieving exercises from cache, from under: " + combinedName);
             let data = await client.HGETALL(combinedName);
             let answerArray = [];
-            for (exercise in data){
+            for (let exercise in data){
                 //console.log(data[exercise])
                 answerArray.push(JSON.parse(data[exercise]));
             }
