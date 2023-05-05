@@ -27,7 +27,8 @@ router
     .get(async (req, res) => {
         try{
             let pagenum = parseInt(req.params.pagenum)
-            let posts = await postData.getPosts(pagenum);
+            let posts; 
+            posts = await postData.getPosts(pagenum);
             if(posts.length<1){
                 throw "Error: no posts found"
             }

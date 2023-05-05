@@ -33,12 +33,15 @@ async function getPosts(pagenum){
     if(typeof(pagenum)!=="number"){
         throw "Error: provided pagenum must be a number"
     }
-    let postIDs = await client.zRange("LiftTrek Post Feed", (pagenum-1)*20, {REV: true})
+    let postIDs = [];
+    postIDs = await client.zRange("LiftTrek Post Feed", (pagenum-1)*numPerPage, pagenum*numPerPage, {REV: true})
+    console.log(postIDs)
     let posts = []
-    postIDs.map(async (postID)=> {
-        let stringPost = await client.hGet("LiftTrek Posts", postID)
+
+    for(i = 0; i<postIDs.length; i++){
+        stringPost = await client.hGet("LiftTrek Posts", postIDs[i])
         posts.push(JSON.parse(stringPost));
-    })
+    }
     return posts;
 }
 
