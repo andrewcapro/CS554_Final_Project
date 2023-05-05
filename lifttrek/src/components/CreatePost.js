@@ -1,11 +1,16 @@
 import { Button } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import axios from "axios";
+import {AuthContext} from '../firebase/Auth';
+
 
 function CreatePost() {
 
   const [type, setType] = useState('');
   const [textPostformData, setTextPostFormData] = useState({});
   const [imagePostformData, setImagePostFormData] = useState({});
+  const {currentUser} = useContext(AuthContext);
+
 
   const handleTextPostChange = (e) => {
     setTextPostFormData((prev) => ({...prev, [e.target.name]: e.target.value}));
@@ -20,11 +25,13 @@ function CreatePost() {
     }
   };
 
-  const makeTextPost = () => {
+  const makeTextPost = async () =>  {
     document.getElementById("Title1").value = "";
     document.getElementById("Body1").value = "";
-    console.log("Not yet implemented, but here's the submitted data");
-    console.log(textPostformData)
+    //console.log("Not yet implemented, but here's the submitted data");
+    //console.log(textPostformData)
+    const {data} = await axios.get("http://localhost:4000/users/" + currentUser.uid)
+    await axios.post("http://localhost:4000/posts/createTextPost/", {title: textPostformData.title, body: textPostformData.body, userWhoPosted: {id: currentUser.uid, username: data.username}})
     setTextPostFormData({});
   }
 
