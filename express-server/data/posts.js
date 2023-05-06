@@ -24,6 +24,29 @@ async function createTextPost(title, body, userWhoPosted){
     return newPost;
 }
 
+async function createImagePost(title, image, userWhoPosted){
+    if(!title){
+        throw "Error: title not provided"
+    }
+    if(!image){
+        throw "Error: image not provided"
+    }
+    if(!userWhoPosted){
+        throw "Error: user not provided"
+    }
+    let postId = uuid.v4();
+    //let newPost = {id: postId, title: title, image: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png", userWhoPosted: userWhoPosted, likes:[], comments:[]}
+    //TODO: Add way to store images via AWS S3
+    //Images uploaded via current method only last for the current session
+    let newPost = {id: postId, title: title, image: image, userWhoPosted: userWhoPosted, likes:[], comments:[]}
+    let storedPost = JSON.stringify(newPost);
+    await client.hSet("LiftTrek Posts", postId, storedPost)
+    //Need some consistent way to organize posts
+    //Figured it could be done through a sorted set based on time
+    await client.zAdd("LiftTrek Post Feed", {score: Date.now(), value: postId});
+    return newPost;
+}
+
 //pagenum is an integer >=1
 async function getPosts(pagenum){
     let numPerPage = 20;
@@ -42,6 +65,7 @@ async function getPosts(pagenum){
         stringPost = await client.hGet("LiftTrek Posts", postIDs[i])
         posts.push(JSON.parse(stringPost));
     }
+    console.log(posts)
     return posts;
 }
 
@@ -55,6 +79,7 @@ async function getPostById(id){
 
 module.exports = {
     createTextPost,
+    createImagePost,
     getPosts,
     getPostById
 }

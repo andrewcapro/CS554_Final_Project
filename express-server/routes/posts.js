@@ -22,6 +22,22 @@ router
         }
     })
 
+    router
+    .route("/createImagePost")
+    .post(async (req, res) => {
+        try{
+            let title = req.body.title
+            let image = req.body.image  
+            let userWhoPosted = req.body.userWhoPosted
+            let createdPost = await postData.createImagePost(title, image, userWhoPosted);
+            res.status(200).json(createdPost);
+        }
+        catch(e){
+            console.log(e)
+            res.status(400).json(e)
+        }
+    })
+
 router
     .route("/page/:pagenum")
     .get(async (req, res) => {
