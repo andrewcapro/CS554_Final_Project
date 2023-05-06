@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Grid, Button, Card, CardMedia, CardContent, CardActionArea, Typography } from '@mui/material'
 import {Link} from 'react-router-dom';
+import axios from "axios";
 
 
 function PostFeed() {
@@ -10,7 +11,7 @@ function PostFeed() {
 
   //TODO: make this function get actually data, not test junk
   useEffect(() => { async function fetchData(){
-      let testData = []
+      /*let testData = []
       let i = 0;
       for(i = 0; i<23; i++){
         if(i%3===0){
@@ -26,6 +27,17 @@ function PostFeed() {
       }
       else{
         setLastPage(false);
+      }*/
+      let data = await fetch("http://localhost:4000/posts/page/" + page)
+      data = await data.json()
+      setPosts(data);
+      console.log(data)
+      data = await fetch("http://localhost:4000/posts/page/" + (page + 1))
+      if(Array.isArray(data)){
+        setLastPage(false);
+      }
+      else{
+        setLastPage(true);
       }
     }
     fetchData();
@@ -82,7 +94,7 @@ function PostFeed() {
                     title='item image'
                   />}
                 <Typography variant='body2' color='textSecondary' component='p'>
-                  {item.userThatPosted.name}
+                  {item.userWhoPosted && item.userWhoPosted.username}
                 </Typography>
               </CardContent>
           </CardActionArea>
@@ -91,9 +103,14 @@ function PostFeed() {
     );
   };
 
-let cards = posts.map((post) => {
+let cards = []
+console.log(posts);
+if(Array.isArray(posts)){
+  cards = posts.map((post) => {
     return buildCard(post);
-}) 
+  }) 
+}
+
 
   return (
     <div>
