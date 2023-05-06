@@ -1,33 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from "react";
 import {
   FormControl,
   MenuItem,
   InputLabel,
   Select,
   Button
-} from '@mui/material';
+} from "@mui/material";
+import axios from "axios";
+import { AuthContext } from "../../firebase/Auth";
+const uuid = require("uuid")
 
 function Random() {
+  
+  const {currentUser} = useContext(AuthContext);
+
+  const push = ["chest", "triceps","traps","shoulders","chest"];
+  const pull = ["lats", "middle_back", "biceps", "lower_back", "forearms"];
+  const legs = ["quadriceps", "hamstrings", "glutes", "calves"];
+  const upper = ["chest", "lats", "middle_back", "triceps", "biceps"];
+  const lower = ["quadriceps", "hamstrings", "glutes", "abductors", "adductors"];
+
+  const [error, setError] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState({
-    exerciseType: 'any',
-    category: 'any',
-    difficulty: 'any'
+    exerciseType: "strength",
+    musclesArray: JSON.stringify(push),
+    difficulty: "intermediate"
   });
 
   const handleChange = (event) => {
+    let value = event.target.value;
     setSelectedOptions({
       ...selectedOptions,
-      [event.target.name]: event.target.value
+      [event.target.name]: value
     });
   };
 
-  const handleRandomize = () => {
-    console.log(selectedOptions); // or do whatever you need to do with the selected options
+  async function handleRandomize() {
+    try {
+      //getting workout & user info
+      let axiosData = {
+        ...selectedOptions,
+        musclesArray: JSON.parse(selectedOptions.musclesArray)
+      };
+      const randId = uuid.v4();
+      //generate random workout
+      const workout = await axios.post("http://localhost:4000/exercises/auto", axiosData);
+      //create workout
+      const postDetails = {
+        workoutCreatorId: currentUser.uid,
+        title: `Random ${randId}`,
+        exercisesArray: workout.data
+      }
+      await axios.post("http://localhost:4000/exercises/create", postDetails);
+      setError(false);
+    } catch(e){
+      setError(true);
+      console.log(e);
+    }
   };
+
 
   return (
     <div>
-      <h3 style={{ marginLeft: '10px' }}>Random</h3>
+      <h3 style={{ marginLeft: "10px" }}>Random</h3>
       <FormControl sx={{ m: 1, minWidth: 150 }}>
         <InputLabel id="exerciseType-label">Exercise Type</InputLabel>
         <Select
@@ -36,7 +71,6 @@ function Random() {
           label="exerciseType" id="exerciseType-select"
           onChange={handleChange}
         >
-          <MenuItem value="any">Any</MenuItem>
           <MenuItem value="powerlifting">Powerlifting</MenuItem>
           <MenuItem value="strength">Strength</MenuItem>
           <MenuItem value="olympic_weightlifting">Olympic Weightlifting</MenuItem>
@@ -44,19 +78,18 @@ function Random() {
         </Select>
       </FormControl>
       <FormControl sx={{ m: 1, minWidth: 150 }}>
-        <InputLabel id="category-label">Category</InputLabel>
+        <InputLabel id="musclesArray-label">Category</InputLabel>
         <Select
-          name="category"
-          value={selectedOptions.category}
-          label="category" id="catagory"
+          name="musclesArray"
+          value={selectedOptions.musclesArray}
+          label="musclesArray" id="musclesArray"
           onChange={handleChange}
         >
-          <MenuItem value="any">Any</MenuItem>
-          <MenuItem value="push">Push</MenuItem>
-          <MenuItem value="pull">Pull</MenuItem>
-          <MenuItem value="legs">Legs</MenuItem>
-          <MenuItem value="upper">Upper</MenuItem>
-          <MenuItem value="lower">Lower</MenuItem>
+          <MenuItem value={JSON.stringify(push)}>Push</MenuItem>
+          <MenuItem value={JSON.stringify(pull)}>Pull</MenuItem>
+          <MenuItem value={JSON.stringify(legs)}>Legs</MenuItem>
+          <MenuItem value={JSON.stringify(upper)}>Upper</MenuItem>
+          <MenuItem value={JSON.stringify(lower)}>Lower</MenuItem>
         </Select>
       </FormControl>
       <FormControl sx={{ m: 1, minWidth: 150 }}>
@@ -67,7 +100,6 @@ function Random() {
           label="difficulty" id="difficulty"
           onChange={handleChange}
         >
-          <MenuItem value="any">Any</MenuItem>
           <MenuItem value="beginner">Beginner</MenuItem>
           <MenuItem value="intermediate">Intermediate</MenuItem>
           <MenuItem value="expert">Expert</MenuItem>
@@ -76,13 +108,19 @@ function Random() {
       <br />
       <br />
       <Button
-        style={{ marginLeft: '10px' }}
+        style={{ marginLeft: "10px" }}
         variant="contained"
         onClick={handleRandomize}
         id="blueButton3"
       >
         Randomize
       </Button>
+      {error &&
+      <div>
+        <br/>
+        <h3>This combination does not work, try a different one</h3>
+      </div>
+      }
     </div>
   );
 }

@@ -18,7 +18,6 @@ function CreatePost() {
 
   const handleImagePostChange = (e) => {
     if(e.target.name === "image"){
-      //setImagePostFormData((prev) => ({...prev, [e.target.name]: e.target.files[0]}));
       setImagePostFormData((prev) => ({...prev, [e.target.name]: e.target.files[0]}));
     }
     else{
@@ -29,8 +28,6 @@ function CreatePost() {
   const makeTextPost = async () =>  {
     document.getElementById("Title1").value = "";
     document.getElementById("Body1").value = "";
-    //console.log("Not yet implemented, but here's the submitted data");
-    //console.log(textPostformData)
     const {data} = await axios.get("http://localhost:4000/users/" + currentUser.uid)
     await axios.post("http://localhost:4000/posts/createTextPost/", {title: textPostformData.title, body: textPostformData.body, userWhoPosted: {id: currentUser.uid, username: data.username}})
     setTextPostFormData({});
@@ -39,8 +36,6 @@ function CreatePost() {
   const makeImagePost = async () => {
     document.getElementById("Title2").value = "";
     document.getElementById("Image").value = "";
-    //console.log("Not yet implemented, but here's the submitted data");
-    //console.log(imagePostformData)
     const {data} = await axios.get("http://localhost:4000/users/" + currentUser.uid)
     await axios.post("http://localhost:4000/posts/createImagePost/", {title: imagePostformData.title, image: URL.createObjectURL(imagePostformData.image), userWhoPosted: {id: currentUser.uid, username: data.username}})
     setImagePostFormData({})

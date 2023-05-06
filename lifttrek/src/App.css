@@ -38,7 +38,7 @@ a:focus { text-decoration: none; color:teal; }
 
 #blueButton, #blueButton2, #blueButton3 {
   border-radius: 10px;
-  background-color: #5082af;
+  background-color: #427baa;
 }
 
 #submitButton, #submitButton2 {
@@ -47,7 +47,7 @@ a:focus { text-decoration: none; color:teal; }
 }
 
 #navButton, #navButton2, #navButton3, #navButton4, #navButton5, #navButton6 {
-  background-color: #82AF50;
+  background-color: #568300;
 }
 
 .createWrapper {

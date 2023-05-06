@@ -80,7 +80,7 @@ function PostFeed() {
                   }}
                   gutterBottom
                   variant='h6'
-                  component='h3'
+                  component='h2'
                 >
                   {item.title}
                 </Typography>

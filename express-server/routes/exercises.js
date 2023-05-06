@@ -33,7 +33,7 @@ router
             let exerciseInfo = req.body;
             let exerciseType = exerciseInfo.exerciseType;
             let difficulty = exerciseInfo.difficulty;
-            let muscle = exerciseInfo.muscle;
+            let muscle = exerciseInfo.musclesArray;
             console.log(req.body);
             let autoExercises = await exerciseData.getExercisesAuto(exerciseType, muscle, difficulty);
             res.status(200).json(autoExercises);

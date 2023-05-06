@@ -2,7 +2,7 @@ const axios = require("axios");
 
 async function getExercises(pagenum, exerciseType, muscle, difficulty){
     try{
-        const {data} = await axios.get("http://localhost:4000/exercises/", {
+        const {data} = await axios.post("http://localhost:4000/exercises/", {
             data: {
             pagenum: pagenum, 
             exerciseType: exerciseType,
@@ -19,7 +19,7 @@ async function getExercises(pagenum, exerciseType, muscle, difficulty){
 
 async function getExercisesAuto(exerciseType, muscle, difficulty){
     try{
-        const {data} = await axios.get("http://localhost:4000/exercises/auto", {
+        const {data} = await axios.post("http://localhost:4000/exercises/auto", {
             data : {
             exerciseType: exerciseType,
             difficulty: difficulty,
