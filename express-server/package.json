@@ -9,8 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.328.0",
+    "@aws-sdk/signature-v4": "^3.310.0",
+    "@aws-sdk/types": "^3.310.0",
+    "aws-sdk": "^2.1373.0",
     "axios": "^1.4.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "redis": "^4.6.6",
     "uuid": "^9.0.0"

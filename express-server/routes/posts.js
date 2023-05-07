@@ -5,7 +5,7 @@ const client = redis.createClient();
 client.connect().then(() => {});
 const data = require("../data");
 const postData = data.posts;
-
+const {uploadFile} = require("../s3")
 router
     .route("/createTextPost")
     .post(async (req, res) => {
@@ -30,6 +30,8 @@ router
             let image = req.body.image  
             let userWhoPosted = req.body.userWhoPosted
             let createdPost = await postData.createImagePost(title, image, userWhoPosted);
+            console.log(createdPost.id)
+            await uploadFile(createdPost.id, image);
             res.status(200).json(createdPost);
         }
         catch(e){
