@@ -61,11 +61,40 @@ router
     .get(async (req, res) => {
         try{
             let post = await postData.getPostById(req.params.id)
+            if(!post){
+                throw "Error: Post not found"
+            }
             res.status(200).json(post)
         }
         catch(e){
             console.log(e)
             res.status(404).json(e)
+        }
+    })
+
+router
+    .route("/like/:postId/:userId")
+    .post(async (req, res) => {
+        try{
+            let post = await postData.likePost(req.params.postId, req.params.userId)
+            res.status(200).json(post)
+        }
+        catch(e){
+            console.log(e)
+            res.status(500).json(e)  
+        }
+    })
+
+router
+    .route("/comment/:postId")
+    .post(async (req, res) => {
+        try{
+            let post = await postData.addComment(req.params.postId, userWhoPosted, body)
+            res.status(200).json(post)
+        }
+        catch(e){
+            console.log(e)
+            res.status(500).json(e)
         }
     })
 
