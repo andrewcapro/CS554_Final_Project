@@ -56,6 +56,25 @@ router
         }
     })
 
+router
+    .route("/:id/:pagenum")
+    .get(async (req, res) => {
+        try{
+            let pagenum = parseInt(req.params.pagenum)
+            let id = req.params.id
+            let posts; 
+            posts = await postData.getPostsByUser(pagenum, id);
+            if(posts.length<1){
+                throw "Error: no posts found"
+            }
+            res.status(200).json(posts)
+        }
+        catch(e){
+            console.log(e)
+            res.status(404).json(e)
+        }
+    })
+
 router    
     .route("/:id")
     .get(async (req, res) => {

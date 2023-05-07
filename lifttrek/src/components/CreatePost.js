@@ -16,6 +16,26 @@ function CreatePost() {
     setTextPostFormData((prev) => ({...prev, [e.target.name]: e.target.value}));
   };
 
+  // const makePolaroid = async () => {
+  //   const outputImage = document.getElementById("displayimage");
+
+  //   const sourceImage = URL.createObjectURL(imagePostformData.image);
+  //   const { outputFiles, exitCode, stderr} = await execute({
+  //     inputFiles: [await buildInputFile(sourceImage, 'image1.png')],
+  //     commands: `
+  //       convert image1.png -bordercolor #ffee44 -background #eeff55 +polaroid image2.png
+  //       convert image2.png -fill #997711 -tint 55 image3.jpg
+  //   `
+  //   })
+  //   if (exitCode) {
+  //     alert(`There was an error with the command: ${stderr.join('\n')}`)
+  //   }
+  //   else {
+  //     await loadImageElement(outputFiles[1], document.querySelector('#displayimage'))
+  //   }
+
+  // }
+
   const handleImagePostChange = (e) => {
     if(e.target.name === "image"){
       setImagePostFormData((prev) => ({...prev, [e.target.name]: e.target.files[0]}));
@@ -23,6 +43,7 @@ function CreatePost() {
     else{
       setImagePostFormData((prev) => ({...prev, [e.target.name]: e.target.value}));
     }
+    console.log(imagePostformData);
   };
 
   const makeTextPost = async () =>  {
@@ -98,6 +119,13 @@ function CreatePost() {
               </input>
             </label>
             <br></br>
+          {imagePostformData.image && 
+          <div>
+          <img id="displayimage" src={URL.createObjectURL(imagePostformData.image)} width="250"/>
+          <br/>
+          {/* <Button style={{ marginLeft: '10px' }} id="polaroid" variant="contained" onClick={makePolaroid}>Polaroid</Button> */}
+          </div>
+          }
             <br></br>
             <Button style={{ marginLeft: '10px' }} id="submitButton2" variant="contained" onClick={makeImagePost}>
               Create Post

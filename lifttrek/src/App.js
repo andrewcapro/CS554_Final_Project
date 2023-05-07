@@ -14,6 +14,7 @@ import DisplayWorkout from "./components/DisplayWorkout";
 import DisplayPost from './components/DisplayPost'
 import SignUp from "./components/SignUp";
 import Navigation from "./components/Navigation";
+import Account from "./components/Account";
 import { AuthProvider } from "./firebase/Auth";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -56,6 +57,10 @@ function App() {
             <Route path="/feed" element={<PrivateRoute />}>
               <Route path="/feed" element={<PostFeed />} />
             </Route>
+            <Route path="/account/:id" element={<PrivateRoute />}>
+              <Route path="/account/:id" element={<Account />} />
+            </Route>
+            
             <Route path="/createworkout" element={<PrivateRoute />}>
               <Route path="/createworkout" element={<CreateWorkout />} />
             </Route>

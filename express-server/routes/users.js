@@ -38,4 +38,36 @@ router
         }
     })
 
+router
+    .route('/:id/image')
+    .post(async (req, res) => {
+        try{
+            userInfo = req.body;
+            id = req.params.id
+            image = userInfo.image
+            createdUser = await userData.addProfilePicture(id, image);
+            res.status(200).json(createdUser);
+        }
+        catch(e){
+            console.log(e)
+            res.status(400).json(e)
+        }
+    })
+
+router
+    .route('/:id/description')
+    .post(async (req, res) => {
+        try{
+            userInfo = req.body;
+            id = req.params.id
+            description = userInfo.description
+            createdUser = await userData.editDescription(id, description);
+            res.status(200).json(createdUser);
+        }
+        catch(e){
+            console.log(e)
+            res.status(400).json(e)
+        }
+    })
+
 module.exports = router;

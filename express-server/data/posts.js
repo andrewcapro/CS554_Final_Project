@@ -21,6 +21,7 @@ async function createTextPost(title, body, userWhoPosted){
     //Need some consistent way to organize posts
     //Figured it could be done through a sorted set based on time
     await client.zAdd("LiftTrek Post Feed", {score: Date.now(), value: postId});
+    await client.zAdd(`${userWhoPosted.id} Posts`, {score: Date.now(), value: postId});
     return newPost;
 }
 
@@ -44,6 +45,7 @@ async function createImagePost(title, image, userWhoPosted){
     //Need some consistent way to organize posts
     //Figured it could be done through a sorted set based on time
     await client.zAdd("LiftTrek Post Feed", {score: Date.now(), value: postId});
+    await client.zAdd(`${userWhoPosted.id} Posts`, {score: Date.now(), value: postId});
     return newPost;
 }
 
@@ -77,9 +79,31 @@ async function getPostById(id){
     return JSON.parse(stringPost);
 }
 
+async function getPostsByUser(pagenum, id){ //Recycled GetPosts
+    let numPerPage = 20;
+    if(pagenum===null || pagenum===undefined){
+        throw "Error: pagenum not provided"
+    }
+    if(typeof(pagenum)!=="number"){
+        throw "Error: provided pagenum must be a number"
+    }
+    let postIDs = [];
+    postIDs = await client.zRange(`${id} Posts`, (pagenum-1)*numPerPage, pagenum*numPerPage, {REV: true})
+    console.log(postIDs)
+    let posts = []
+
+    for(i = 0; i<postIDs.length; i++){
+        stringPost = await client.hGet("LiftTrek Posts", postIDs[i])
+        posts.push(JSON.parse(stringPost));
+    }
+    console.log(posts)
+    return posts;
+}
+
 module.exports = {
     createTextPost,
     createImagePost,
     getPosts,
-    getPostById
+    getPostById,
+    getPostsByUser
 }

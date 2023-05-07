@@ -10,7 +10,10 @@ const Navigation = () => {
   return <div>{currentUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>;
 };
 
+
+
 const NavigationAuth = () => {
+  const currentPath = `/account/${useContext(AuthContext).currentUser.uid}`
   return (
     <nav>
       <ButtonGroup id="navGroup" variant="outlined">
@@ -19,6 +22,9 @@ const NavigationAuth = () => {
         </Button>
         <Button id="navButton" variant="contained">
           <NavLink to="/feed">View Feed</NavLink>
+        </Button>
+        <Button id="navButton" variant="contained">
+          <NavLink to={currentPath}>Account</NavLink>
         </Button>
         <Button id="navButton" variant="contained">
           <NavLink to="/createworkout">Create Workout</NavLink>
