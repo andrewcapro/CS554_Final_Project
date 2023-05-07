@@ -108,7 +108,7 @@ async function likePost(postId, userId){
         throw "userId not provided"
     }
     try{
-        let stringPost = await client.hGet("LiftTrek Post", postId)
+        let stringPost = await client.hGet("LiftTrek Posts", postId)
         post = JSON.parse(stringPost);
         if(post.likes.includes(userId)){
             post.likes.push(userId);
@@ -130,16 +130,16 @@ async function addComment(postId, userWhoPosted, body){
     if(!postId){
         throw "postId not provided"
     }
-    if(!userId){
+    if(!userWhoPosted.id){
         throw "userId not provided"
     }
     if(!body){
         throw "body not provided"
     }
     try{
-        let stringPost = await client.hGet("LiftTrek Post", postId)
+        let stringPost = await client.hGet("LiftTrek Posts", postId)
         post = JSON.parse(stringPost);
-        post.comments.push({userWhoPosted: userWhoPosted, body: body})
+        post.comments.unshift({id: uuid.v4(), userWhoPosted: userWhoPosted, body: body})
         let newStringPost = JSON.stringify(post);
         await client.hSet("LiftTrek Posts", postId, newStringPost)
         return post

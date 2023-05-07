@@ -108,7 +108,7 @@ router
     .route("/comment/:postId")
     .post(async (req, res) => {
         try{
-            let post = await postData.addComment(req.params.postId, userWhoPosted, body)
+            let post = await postData.addComment(req.params.postId, req.body.userWhoPosted, req.body.body)
             res.status(200).json(post)
         }
         catch(e){
