@@ -9,7 +9,6 @@ function PostFeed() {
   const [posts, setPosts] = useState([])
   const [lastPage, setLastPage] = useState(false);
 
-  //TODO: make this function get actually data, not test junk
   useEffect(() => { async function fetchData(){
       /*let testData = []
       let i = 0;
@@ -94,7 +93,7 @@ function PostFeed() {
                     title='item image'
                   />}
                 <Typography variant='body2' color='textSecondary' component='p'>
-                  {item.userWhoPosted && item.userWhoPosted.username}
+                  Posted by: {item.userWhoPosted && item.userWhoPosted.username}
                 </Typography>
               </CardContent>
           </CardActionArea>

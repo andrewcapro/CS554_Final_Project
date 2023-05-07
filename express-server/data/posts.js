@@ -75,7 +75,7 @@ async function getPostById(id){
     if(!id){
         throw "id not provided"
     }
-    let stringPost = await client.hGet("LiftTrek", id)
+    let stringPost = await client.hGet("LiftTrek Posts", id)
     return JSON.parse(stringPost);
 }
 
@@ -100,10 +100,62 @@ async function getPostsByUser(pagenum, id){ //Recycled GetPosts
     return posts;
 }
 
+async function likePost(postId, userId){
+    if(!postId){
+        throw "postId not provided"
+    }
+    if(!userId){
+        throw "userId not provided"
+    }
+    try{
+        let stringPost = await client.hGet("LiftTrek Post", postId)
+        post = JSON.parse(stringPost);
+        if(post.likes.includes(userId)){
+            post.likes.push(userId);
+        }
+        else{
+            let toRemove = post.likes.indexOf(userId);
+            post.likes.splice(toRemove, 1)
+        }
+        let newStringPost = JSON.stringify(post);
+        await client.hSet("LiftTrek Posts", postId, newStringPost)
+        return post;
+    }
+    catch(e){
+        throw "Error: could not like post"
+    }
+}
+
+async function addComment(postId, userWhoPosted, body){
+    if(!postId){
+        throw "postId not provided"
+    }
+    if(!userId){
+        throw "userId not provided"
+    }
+    if(!body){
+        throw "body not provided"
+    }
+    try{
+        let stringPost = await client.hGet("LiftTrek Post", postId)
+        post = JSON.parse(stringPost);
+        post.comments.push({userWhoPosted: userWhoPosted, body: body})
+        let newStringPost = JSON.stringify(post);
+        await client.hSet("LiftTrek Posts", postId, newStringPost)
+        return post
+    }
+    catch(e){
+        throw "Error: could not comment on post"
+    }
+
+}
+
 module.exports = {
     createTextPost,
     createImagePost,
     getPosts,
     getPostById,
-    getPostsByUser
+    getPostsByUser,
+    likePost,
+    addComment
 }
