@@ -108,8 +108,6 @@ router
 router
     .route('/image/:id')
     .get(async (req, res) => {
-
-
         try{
             let id = req.params.id
             let ext = req.params.ext
