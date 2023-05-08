@@ -90,6 +90,7 @@ function PostFeed() {
                     }}
                     component='img'
                     image={item.image}
+                    
                     title='item image'
                   />}
                 <Typography variant='body2' color='textSecondary' component='p'>

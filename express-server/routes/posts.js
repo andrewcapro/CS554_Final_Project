@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const redis = require('redis');
 const client = redis.createClient();
+const gm = require('gm');
+const fs = require('fs');
+const imageMagick = gm.subClass({ imageMagick: true });
+
 client.connect().then(() => {});
 const data = require("../data");
 const postData = data.posts;
@@ -25,13 +29,43 @@ router
     router
     .route("/createImagePost")
     .post(async (req, res) => {
+
+        const {image} = req.files;
+        
+        // imageMagick()
+        console.log(image);
+        const name = __dirname + '\\uploads\\'+image.name
+        
+        // const edited = __dirname + '/uploads/edited'+image.name
+        image.mv(name)
+        imageMagick(name).size(function (err, size){
+            if (!err){
+            console.log(size);
+            }
+            else {
+                console.log(err);
+            }
+        })
+        // gm(name).resize(300, 300, "!").write(__dirname+"/uploads/", function (err){
+        //     if (!err) console.log("done")
+        // })
+        // //const buf = fs.readFileSync(__dirname + '\\uploads\\'+image.name)
+        // fs.rename(name, edited, function(){
+        //     gm(edited).resize(50, 50).write(edited, function(){
+        //         console.log("idk")
+        //     });
+        // })
+        //gm(buf).resize(400, 400)
+        //image.mv(__dirname + '/uploads/'+image.name);
+        // gm(__dirname + '/uploads/'+image.name).resize(400, 400)
         try{
             let title = req.body.title
-            let image = req.body.image  
-            let userWhoPosted = req.body.userWhoPosted
-            let createdPost = await postData.createImagePost(title, image, userWhoPosted);
+            // let image = req.body.image  
+            // userWhoPosted: {id: currentUser.uid, username: data.username}
+            let userWhoPosted = {id: req.body.currentUser, username: req.body.username}
+            let createdPost = await postData.createImagePost(title, userWhoPosted);
             console.log(createdPost.id)
-            await uploadFile(createdPost.id, image);
+            //await uploadFile(createdPost.id, image);
             res.status(200).json(createdPost);
         }
         catch(e){

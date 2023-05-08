@@ -36,6 +36,17 @@ function CreatePost() {
 
   // }
 
+  function changeToBin(fileContent){
+    console.log(fileContent);
+    const reader = new FileReader();
+    reader.readAsDataURL(fileContent);
+    reader.onloadend = async function() {
+        const base64data = reader.result;                
+        console.log(base64data);
+        return base64data;
+      }
+  }
+
   const handleImagePostChange = (e) => {
     if(e.target.name === "image"){
       setImagePostFormData((prev) => ({...prev, [e.target.name]: e.target.files[0]}));
@@ -43,6 +54,7 @@ function CreatePost() {
     else{
       setImagePostFormData((prev) => ({...prev, [e.target.name]: e.target.value}));
     }
+    console.log("image");
     console.log(imagePostformData);
   };
 
@@ -58,7 +70,19 @@ function CreatePost() {
     document.getElementById("Title2").value = "";
     document.getElementById("Image").value = "";
     const {data} = await axios.get("http://localhost:4000/users/" + currentUser.uid)
-    await axios.post("http://localhost:4000/posts/createImagePost/", {title: imagePostformData.title, image: URL.createObjectURL(imagePostformData.image), userWhoPosted: {id: currentUser.uid, username: data.username}})
+    var formData = new FormData();
+    const imagefile = imagePostformData.image
+    console.log(imagefile);
+    formData.append('image', imagefile)
+    formData.append("title", imagePostformData.title);
+    formData.append("currentUser", currentUser.uid);
+    formData.append("username", data.username);
+    //formData.append('postData', {title: imagePostformData.title, userWhoPosted: {id: currentUser.uid, username: data.username}})
+    await axios.post("http://localhost:4000/posts/createImagePost/", formData, {
+      headers: {
+        'Content-Type': 'multipart/form=data'
+      }
+    })
     setImagePostFormData({})
   }
 

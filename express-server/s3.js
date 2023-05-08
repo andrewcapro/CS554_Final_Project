@@ -1,6 +1,7 @@
 const { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
 // require('dotenv').config()
 const AWS = require('aws-sdk')
+const fs = require(`fs`);
 const { SignatureV4 } = require('@aws-sdk/signature-v4');
 const { credentials} = require('@aws-sdk/types');
 const {ENV_BUCKETCONSTANTS} = require("./s3constants.js")
@@ -31,6 +32,7 @@ console.log(accessKey)
 console.log(secretKey)
 console.log(region)
 console.log(ENV_BUCKETCONSTANTS.SIGNATURE_VERSION)
+console.log(fileContent);
 const credentials = new AWS.Credentials(accessKey, secretKey);
 AWS.config.credentials = credentials;
 
