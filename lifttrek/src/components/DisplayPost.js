@@ -1,14 +1,16 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { Grid, Button, Card, CardMedia, CardContent, CardActionArea, Typography } from '@mui/material'
 import axios from 'axios';
 import {useParams} from "react-router-dom"
 import CreateComment from './CreateComment';
 import TextField from '@mui/material';
+import {AuthContext} from '../firebase/Auth';
 
 function DisplayPost() {
   const [post, setPost] = useState({})
   let {id} = useParams()
   const [postComments, setPostComments] = useState([]);
+  const {currentUser} = useContext(AuthContext);
 
 
   useEffect(() => { async function fetchData(){
@@ -23,6 +25,12 @@ function DisplayPost() {
   async function UpdateComments() {
     const {data} = await axios.get("http://localhost:4000/posts/" + id)
     setPostComments(data.comments)
+  }
+
+  const deleteComment = async (post_id, comment_id) =>  {
+    const {data} = await axios.get("http://localhost:4000/users/" + currentUser.uid)
+    await axios.post(`http://localhost:4000/posts/delete_comment/${post_id}`, {userWhoPosted: {id: currentUser.uid, username: data.username}, commentId: comment_id})
+    UpdateComments();
   }
 
   return (
@@ -64,6 +72,7 @@ function DisplayPost() {
               <Typography variant='body2' color='textSecondary' component='p'>
                 Posted by: {post.userWhoPosted && post.userWhoPosted.username}
               </Typography>
+              <h3>Comments ({postComments.length})</h3>
               <CreateComment post={post} UpdateComments={UpdateComments}/>
               <br></br>
               <Typography variant='body3' color='textSecondary' component='div'>
@@ -82,24 +91,28 @@ function DisplayPost() {
                         border: '1px solid #1e8678',
                       }}
                     >
-                      <CardActionArea>
-                          <CardContent>
-                            <Typography
-                              sx={{
-                                borderBottom: '1px solid #1e8678',
-                                fontWeight: 'bold'
-                              }}
-                              gutterBottom
-                              variant='h6'
-                              component='h2'
-                            >
-                              {comment.userWhoPosted.username}
-                            </Typography>
-                            <Typography variant='body2' color='textSecondary' component='p'>
-                                {comment.body}
-                            </Typography>
-                          </CardContent>
-                      </CardActionArea>
+                      <CardContent>
+                        <Typography
+                          sx={{
+                            borderBottom: '1px solid #1e8678',
+                            fontWeight: 'bold'
+                          }}
+                          gutterBottom
+                          variant='h6'
+                          component='h2'
+                        >
+                          {comment.userWhoPosted.username}
+                          {
+                            comment.userWhoPosted.id == currentUser.uid &&
+                            <Button style={{ float: "right", top: "-10px" }} id="submitButton" variant="contained" onClick={() => deleteComment(post.id, comment.id)}>
+                                Delete Comment
+                            </Button>
+                          }
+                        </Typography>
+                        <Typography variant='body2' color='textSecondary' component='p'>
+                            {comment.body}
+                        </Typography>
+                      </CardContent>
                     </Card>
                   </Grid>
                   )

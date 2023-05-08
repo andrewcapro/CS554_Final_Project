@@ -119,4 +119,16 @@ router
         }
     })
 
+router
+    .route("/delete_comment/:postId")
+    .post(async (req, res) => {
+        try{
+            let post = await postData.deleteComment(req.params.postId, req.body.commentId)
+            res.status(200).json(post)
+        }
+        catch(e){
+            console.log(e)
+            res.status(500).json(e)
+        }
+    })
 module.exports = router;
