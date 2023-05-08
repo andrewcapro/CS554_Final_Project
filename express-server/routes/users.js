@@ -65,21 +65,22 @@ router
     })
 
 router
-    .route('/:id/image/:ext')
+    .route('/:id/image')
     .get(async (req, res) => {
 
 
         try{
             let id = req.params.id
             let ext = req.params.ext
+            let user = await userData.getUserInfoById(id)
             //let {data} = await axios.get(`bc279858-3147-4a04-8ec2-a7f2885c5e10.png`)
-            let {data} = await axios.get(`https://cs554-lifttrek.s3.amazonaws.com/${id}.${ext}`)
+            let {data} = await axios.get(`https://cs554-lifttrek.s3.amazonaws.com/${id}.${user.image}`)
             let im = data;
         // let im = Buffer.from(data, 'binary').toString('base64')
         res.status(200).json({image: im});
         }
         catch(e){
-            console.log(e)
+            //console.log(e)
             res.status(400).json(e)
         }
     })

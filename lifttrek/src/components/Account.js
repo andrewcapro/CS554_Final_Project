@@ -17,7 +17,7 @@ function Account() {
   const [editingDesc, setEditingDesc] = useState(false);
   const {id} = useParams();
   const {currentUser} = useContext(AuthContext);
-  const [imageExt, setImageExt] = useState(undefined);
+  const [imageExt, setImageExt] = useState("");
   const [image, setImage] = useState(undefined);
   //console.log(id);
 
@@ -31,15 +31,15 @@ function Account() {
       if(Array.isArray(data)){
         setLastPage(false);
       }
-      else{
+      else {
         setLastPage(true);
       }
-      data = await fetch("http://localhost:4000/users/" + currentUser.uid);
+      data = await fetch("http://localhost:4000/users/" + id);
       data = await data.json();
-      //console.log(data);
+      // console.log(data);
       setUser(data);
-      setImageExt(user.image);
-      getImage(id);
+      setImageExt(data.image);
+      await getImage(id)
     }
     fetchData();
   }, [page, editingImage])
@@ -56,26 +56,6 @@ function Account() {
     console.log(newPage);
   }
 
-  // const makeImagePost = async () => {
-  //   document.getElementById("Title2").value = "";
-  //   document.getElementById("Image").value = "";
-  //   const {data} = await axios.get("http://localhost:4000/users/" + currentUser.uid)
-  //   var formData = new FormData();
-  //   const imagefile = imagePostformData.image
-  //   console.log(imagefile);
-  //   formData.append('image', imagefile)
-  //   formData.append("title", imagePostformData.title);
-  //   formData.append("currentUser", currentUser.uid);
-  //   formData.append("username", data.username);
-  //   //formData.append('postData', {title: imagePostformData.title, userWhoPosted: {id: currentUser.uid, username: data.username}})
-  //   await axios.post("http://localhost:4000/posts/createImagePost/", formData, {
-  //     headers: {
-  //       'Content-Type': 'multipart/form=data'
-  //     }
-  //   })
-  //   setImagePostFormData({})
-  // }
-
   const editImage = async () => {
     document.getElementById("Image").value = "";
     let formData = new FormData();
@@ -86,7 +66,6 @@ function Account() {
         'Content-Type': 'multipart/form=data'
       }
     })
-    //await axios.post(`http://localhost:4000/users/${id}/image`, {image: URL.createObjectURL(imageFormData.image)})
     setImageFormData({})
     setEditingImage(false);
     console.log(data);
@@ -104,7 +83,7 @@ function Account() {
   const getImage = async (id) => {
     try {
     //let {data} = axios.get(`https://cs554-lifttrek.s3.amazonaws.com/${id}.${imageExt}`)
-    let {data} = await axios.get(`http://localhost:4000/users/${id}/image/${imageExt}`)
+    let {data} = await axios.get(`http://localhost:4000/users/${id}/image`)
     console.log(data.image);
     setImage(data.image);
     } catch (e) {
