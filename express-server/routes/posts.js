@@ -3,7 +3,7 @@ const router = express.Router();
 const redis = require('redis');
 const client = redis.createClient();
 const gm = require('gm');
-
+const axios = require('axios');
 client.connect().then(() => {});
 const data = require("../data");
 const postData = data.posts;
@@ -71,7 +71,7 @@ router
     })
 
 router
-    .route("/:id/:pagenum")
+    .route("/post/:id/:pagenum")
     .get(async (req, res) => {
         try{
             let pagenum = parseInt(req.params.pagenum)
@@ -102,6 +102,27 @@ router
         catch(e){
             console.log(e)
             res.status(404).json(e)
+        }
+    })
+
+router
+    .route('/image/:id')
+    .get(async (req, res) => {
+
+
+        try{
+            let id = req.params.id
+            let ext = req.params.ext
+            let user = await postData.getPostById(id)
+            //let {data} = await axios.get(`bc279858-3147-4a04-8ec2-a7f2885c5e10.png`)
+            let {data} = await axios.get(`https://cs554-lifttrek.s3.amazonaws.com/${id}.${user.image}`)
+            let im = data
+        // let im = Buffer.from(data, 'binary').toString('base64')
+        res.status(200).json({image: im});
+        }
+        catch(e){
+            //console.log(e)
+            res.status(400).json(e)
         }
     })
 

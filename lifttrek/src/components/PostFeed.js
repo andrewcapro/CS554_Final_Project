@@ -54,6 +54,16 @@ function PostFeed() {
     console.log(newPage);
   }
 
+  const getImage = async (id) => {
+    try {
+    //let {data} = axios.get(`https://cs554-lifttrek.s3.amazonaws.com/${id}.${imageExt}`)
+    let {data} = await axios.get(`http://localhost:4000/posts/image/${id}`)
+    return data.image;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const buildCard = (item) => {
     return (
       <Grid item xs={12} key={item.id}>
@@ -83,7 +93,7 @@ function PostFeed() {
                 >
                   {item.title}
                 </Typography>
-                {item.image && <CardMedia
+                {item.image && <CardMedia id={`${item.id}image`}
                     sx={{
                       height: '100%',
                       width: '100%'
@@ -103,13 +113,31 @@ function PostFeed() {
     );
   };
 
-let cards = []
-console.log(posts);
-if(Array.isArray(posts)){
-  cards = posts.map((post) => {
-    return buildCard(post);
-  }) 
-}
+  let i = -1;
+  let cards = []
+  let imageIds = []
+  console.log(posts);
+  if(Array.isArray(posts)){
+    cards = posts.map((post) => {
+      if (post.image) imageIds.push(post.id);
+      return buildCard(post);
+    }) 
+  }
+  console.log(cards);
+  
+  if (Array.isArray(posts)){
+    cards.map(async (card) => {
+      i++;
+      let currentIm = document.getElementById(`${imageIds[i]}image`)
+      if (currentIm){
+      let {data} = await axios.get("http://localhost:4000/posts/" + imageIds[i])
+      let ext = data.image; //stores extension at first
+      console.log(imageIds[i])
+      let ima = await getImage(imageIds[i]);
+      currentIm.src = `data:image/${ext};base64,${ima}`
+      }
+    })
+  }
 
 
   return (

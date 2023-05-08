@@ -44,9 +44,9 @@ router
     .route('/:id/image')
     .post(async (req, res) => {
 
-        const {image} = req.files;
 
         try{
+            const {image} = req.files;
             userInfo = req.body;
             id = req.params.id
             
@@ -56,6 +56,7 @@ router
                 if (!err) await uploadFile(createdUser.id+"."+image.mimetype.split("/")[1], buff);
                 //await uploadFile(createdPost.id, image);
             })
+            console.log(createdUser);
             res.status(200).json(createdUser);
         }
         catch(e){
@@ -73,6 +74,7 @@ router
             let id = req.params.id
             let ext = req.params.ext
             let user = await userData.getUserInfoById(id)
+            console.log(user);
             //let {data} = await axios.get(`bc279858-3147-4a04-8ec2-a7f2885c5e10.png`)
             let {data} = await axios.get(`https://cs554-lifttrek.s3.amazonaws.com/${id}.${user.image}`)
             let im = data;
