@@ -3,8 +3,6 @@ const router = express.Router();
 const redis = require('redis');
 const client = redis.createClient();
 const gm = require('gm');
-const fs = require('fs');
-const imageMagick = gm.subClass({ imageMagick: true });
 
 client.connect().then(() => {});
 const data = require("../data");
@@ -29,21 +27,19 @@ router
     router
     .route("/createImagePost")
     .post(async (req, res) => {
-
-        const {image} = req.files;
-        console.log(image);
-        const name = __dirname + '\\uploads\\'+image.name
-        // image.mv(name)
-        
         try{
+            const {image} = req.files;
+            if (!image.data) throw "Error: File not uploaded."
+            console.log(image);
+            // image.mv(name)
             let title = req.body.title
             // let image = req.body.image  
             // userWhoPosted: {id: currentUser.uid, username: data.username}
             let userWhoPosted = {id: req.body.currentUser, username: req.body.username}
-            let createdPost = await postData.createImagePost(title, userWhoPosted);
+            let createdPost = await postData.createImagePost(title, image.mimetype.split("/")[1], userWhoPosted);
             console.log(createdPost.id)
             //await uploadFile(createdPost.id, image);
-            gm(image.data).resize(300, 300, "!").toBuffer(async function (err, buff){
+            gm(image.data).resize(500, 500, "!").toBuffer(async function (err, buff){
                 if (err) throw err
                 if (!err) await uploadFile(createdPost.id+"."+image.mimetype.split("/")[1], buff);
                 //await uploadFile(createdPost.id, image);

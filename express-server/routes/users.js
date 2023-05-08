@@ -6,6 +6,8 @@ const client = redis.createClient();
 client.connect().then(() => {});
 const data = require("../data");
 const userData = data.users;
+const {uploadFile} = require("../s3")
+const gm = require('gm');
 
 router
     .route('/')
@@ -41,12 +43,40 @@ router
 router
     .route('/:id/image')
     .post(async (req, res) => {
+
+        const {image} = req.files;
+
         try{
             userInfo = req.body;
             id = req.params.id
-            image = userInfo.image
-            createdUser = await userData.addProfilePicture(id, image);
+            
+            createdUser = await userData.addProfilePicture(id, image.mimetype.split("/")[1]);
+            gm(image.data).resize(300, 300, "!").toBuffer(async function (err, buff){
+                if (err) throw err
+                if (!err) await uploadFile(createdUser.id+"."+image.mimetype.split("/")[1], buff);
+                //await uploadFile(createdPost.id, image);
+            })
             res.status(200).json(createdUser);
+        }
+        catch(e){
+            console.log(e)
+            res.status(400).json(e)
+        }
+    })
+
+router
+    .route('/:id/image/:ext')
+    .get(async (req, res) => {
+
+
+        try{
+            let id = req.params.id
+            let ext = req.params.ext
+            //let {data} = await axios.get(`bc279858-3147-4a04-8ec2-a7f2885c5e10.png`)
+            let {data} = await axios.get(`https://cs554-lifttrek.s3.amazonaws.com/${id}.${ext}`)
+            let im = data;
+        // let im = Buffer.from(data, 'binary').toString('base64')
+        res.status(200).json({image: im});
         }
         catch(e){
             console.log(e)

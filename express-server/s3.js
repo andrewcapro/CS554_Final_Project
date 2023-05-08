@@ -45,7 +45,7 @@ AWS.config.credentials = credentials;
     const params = {
         Bucket: bucketName,
         Key: id,
-        Body: Buffer.from(fileContent)
+        Body: Buffer.from(fileContent, 'binary').toString('base64')
     }
 
     //send to s3 bucket
