@@ -262,8 +262,8 @@ async function editWorkout(workoutCreatorId, workoutId, newWorkoutObject){
     if (newWorkoutObject.title){
         oldWorkout.title = newWorkoutObject.title;
     }
-    if (newWorkoutObject.exercisesArray){
-        oldWorkout.exercisesArray = newWorkoutObject.exercisesArray;
+    if (newWorkoutObject.exercises){
+        oldWorkout.exercises = newWorkoutObject.exercises;
     }
 
     try {

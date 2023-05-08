@@ -4,7 +4,6 @@ import { AuthContext } from "../firebase/Auth";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import { CardActions } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
@@ -61,6 +60,7 @@ function MyWorkouts() {
         setWorkoutDeleted(!workoutDeleted);
     } catch(e){
         console.log(e);
+        setError(true);
     }
   }
 

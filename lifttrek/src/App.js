@@ -18,6 +18,7 @@ import Account from "./components/Account";
 import { AuthProvider } from "./firebase/Auth";
 import PrivateRoute from "./components/PrivateRoute";
 import MyWorkouts from "./components/MyWorkouts";
+import EditWorkout from "./components/EditWorkout";
 
 function App() {
   return (
@@ -50,6 +51,9 @@ function App() {
             </Route>
             <Route path="/myworkouts" element={<PrivateRoute />}>
               <Route path="/myworkouts" element={<MyWorkouts />} />
+            </Route>
+            <Route path="/editworkout/:id" element={<PrivateRoute />}>
+              <Route path="/editworkout/:id" element={<EditWorkout />} />
             </Route>
             <Route path='/post/:id' element={<PrivateRoute/>}>
               <Route path='/post/:id' element={<DisplayPost/>}/>

@@ -4,6 +4,7 @@ import { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../firebase/Auth';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 function DisplayWorkout() {
 
@@ -88,13 +89,17 @@ function DisplayWorkout() {
                 fontSize: "18px"
             }}
             id='blueButton'
-            variant='contained'>Edit Workout</Button>
+            variant='contained'>
+              <NavLink to={`/editworkout/${id}`}>Edit Workout</NavLink>
+            </Button>
             <Button style={{
                 fontSize: "18px",
                 marginLeft: "5px"
             }}
             id='blueButton2'
-            variant='contained'>Post Workout</Button>
+            variant='contained'>
+              <NavLink to={`/editworkout/${id}`}>Post Workout</NavLink>
+            </Button>
           </div>
         </div>
       </div>
@@ -102,5 +107,4 @@ function DisplayWorkout() {
   }
 }
     
-
 export default DisplayWorkout
