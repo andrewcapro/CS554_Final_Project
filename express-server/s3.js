@@ -45,11 +45,11 @@ AWS.config.credentials = credentials;
     const params = {
         Bucket: bucketName,
         Key: id,
-        Body: fileContent
+        Body: Buffer.from(fileContent)
     }
 
     //send to s3 bucket
-    try{
+    try{ 
         const result = await s3Client.upload(params).promise()
         console.log(result)
     } catch(e){

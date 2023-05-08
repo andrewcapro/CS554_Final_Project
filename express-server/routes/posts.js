@@ -31,33 +31,10 @@ router
     .post(async (req, res) => {
 
         const {image} = req.files;
-        
-        // imageMagick()
         console.log(image);
         const name = __dirname + '\\uploads\\'+image.name
+        // image.mv(name)
         
-        // const edited = __dirname + '/uploads/edited'+image.name
-        image.mv(name)
-        imageMagick(name).size(function (err, size){
-            if (!err){
-            console.log(size);
-            }
-            else {
-                console.log(err);
-            }
-        })
-        // gm(name).resize(300, 300, "!").write(__dirname+"/uploads/", function (err){
-        //     if (!err) console.log("done")
-        // })
-        // //const buf = fs.readFileSync(__dirname + '\\uploads\\'+image.name)
-        // fs.rename(name, edited, function(){
-        //     gm(edited).resize(50, 50).write(edited, function(){
-        //         console.log("idk")
-        //     });
-        // })
-        //gm(buf).resize(400, 400)
-        //image.mv(__dirname + '/uploads/'+image.name);
-        // gm(__dirname + '/uploads/'+image.name).resize(400, 400)
         try{
             let title = req.body.title
             // let image = req.body.image  
@@ -66,6 +43,11 @@ router
             let createdPost = await postData.createImagePost(title, userWhoPosted);
             console.log(createdPost.id)
             //await uploadFile(createdPost.id, image);
+            gm(image.data).resize(300, 300, "!").toBuffer(async function (err, buff){
+                if (err) throw err
+                if (!err) await uploadFile(createdPost.id+"."+image.mimetype.split("/")[1], buff);
+                //await uploadFile(createdPost.id, image);
+            })
             res.status(200).json(createdPost);
         }
         catch(e){
