@@ -21,6 +21,10 @@ function Random() {
   const lower = ["quadriceps", "hamstrings", "glutes", "abductors", "adductors"];
 
   const [error, setError] = useState(false);
+
+  const [success, setSuccess] = useState(false);
+  const [successMsg, setSuccessMsg] = useState('Successfully created workout!');
+
   const [selectedOptions, setSelectedOptions] = useState({
     exerciseType: "strength",
     musclesArray: JSON.stringify(push),
@@ -53,8 +57,10 @@ function Random() {
       }
       await axios.post("http://localhost:4000/exercises/create", postDetails);
       setError(false);
+      setSuccess(true);
     } catch(e){
       setError(true);
+      setSuccess(false);
       console.log(e);
     }
   };
@@ -115,6 +121,12 @@ function Random() {
       >
         Randomize
       </Button>
+      {success &&
+      <div>
+        <br/>
+        <h3>{successMsg}</h3>
+      </div>
+      }
       {error &&
       <div>
         <br/>

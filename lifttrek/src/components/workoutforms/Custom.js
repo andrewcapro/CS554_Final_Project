@@ -116,6 +116,8 @@ function FormContainer() {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
+  const [success, setSuccess] = useState(false);
+  const [successMsg, setSuccessMsg] = useState('Successfully created workout!');
 
   const [formDataList, setFormDataList] = useState([{ exerciseType: "any", muscle: "any", difficulty: "any", exercise: "any", reps: "1", sets: "1" }]);
 
@@ -197,9 +199,11 @@ function FormContainer() {
       }
       await axios.post("http://localhost:4000/exercises/create", postDetails);
       setError(false);
+      setSuccess(true);
     } catch(e){
       console.log(e)
       setError(true);
+      setSuccess(false);
       setErrorMsg(e.message);
     }
   }
@@ -240,6 +244,12 @@ function FormContainer() {
       <Button style={{ marginLeft: "10px" }} id="submitButton" variant="contained" onClick={handleSubmit}>
         Submit Workout
       </Button>
+      {success &&
+      <div>
+        <br/>
+        <h3>{successMsg}</h3>
+      </div>
+      }
       {error &&
       <div>
         <br/>

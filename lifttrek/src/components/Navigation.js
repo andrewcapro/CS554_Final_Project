@@ -27,13 +27,13 @@ const NavigationAuth = () => {
           <NavLink to={currentPath}>Account</NavLink>
         </Button>
         <Button id="navButton" variant="contained">
+          <NavLink to="/myworkouts">My Workouts</NavLink>
+        </Button>
+        <Button id="navButton" variant="contained">
           <NavLink to="/createworkout">Create Workout</NavLink>
         </Button>
         <Button id="navButton" variant="contained">
           <NavLink to="/createpost">Create Post</NavLink>
-        </Button>
-        <Button id="navButton" variant="contained">
-          <NavLink to="/displayworkout">Test</NavLink>
         </Button>
         <SignOutButton />
       </ButtonGroup>

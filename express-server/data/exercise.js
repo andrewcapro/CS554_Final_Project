@@ -231,9 +231,23 @@ async function getWorkout(workoutCreatorId, workoutId){
 
     try {
         let workout = await client.HGET(`${workoutCreatorId}workouts`, workoutId);
-        if (workout === NULL) throw "Error: Attempt to workout that does not belong to current user.";
+        console.log(workout)
+        if (workout === null) throw "Error: Attempt to workout that does not belong to current user.";
         return(JSON.parse(workout)); //Must parse because it is a string
     } catch (e) {
+        throw e;
+    }
+}
+
+async function getAllWorkouts(workoutCreatorId){
+    if (!workoutCreatorId) throw "Error: Workout creator ID must be provided for workout retrieval.";
+
+    try {
+        let workouts = await client.HGETALL(`${workoutCreatorId}workouts`);
+        if (workouts === null) throw "Error: Attempt to workout that does not belong to current user.";
+        console.log(workouts)
+        return(workouts); //Must parse because it is a string
+    } catch(e) {
         throw e;
     }
 }
@@ -261,24 +275,28 @@ async function editWorkout(workoutCreatorId, workoutId, newWorkoutObject){
     return oldWorkout;
 }
 
-//for testing
+async function deleteWorkout(workoutCreatorId, workoutId){
+    if (!workoutCreatorId) throw "Error: Workout creator ID must be provided for workout editing.";
+    if (!workoutId) throw "Error: Workout ID must be provided for workout editing.";
 
-// async function main(){
-//     try {
-//         let exercises = await getExercisesAuto('strength', ['biceps'], 'beginner');
-//         let exercises2 = await getExercises(0, 'strength', 'biceps', 'beginner')
-//         console.log(exercises);
-//     } catch (e){
-//         console.log(e);
-//     }
-// }
-
-// main();
+    try {
+        console.log(workoutCreatorId, workoutId)
+    const deleted = await client.HDEL(`${workoutCreatorId}workouts`, workoutId);
+    if (!deleted) {
+        throw "Workout not found.";
+    }
+    return true;
+    } catch (e) {
+    throw e;
+    }
+}
 
 module.exports = {
     getExercises,
     createWorkout,
     getExercisesAuto,
     getWorkout,
-    editWorkout
+    getAllWorkouts,
+    editWorkout,
+    deleteWorkout
 }
