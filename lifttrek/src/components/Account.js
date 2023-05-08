@@ -4,7 +4,7 @@ import {Link, useParams} from 'react-router-dom';
 import axios from "axios";
 import {AuthContext} from '../firebase/Auth';
 import "../App.css"
-
+import Input from '@mui/material/Input';
 
 function Account() {
   const [page, setPage] = useState(1)
@@ -119,7 +119,6 @@ function Account() {
     else{
       setImageFormData((prev) => ({...prev, [e.target.name]: e.target.value}));
     }
-    //console.log(imageFormData);
   };
 
   const handleTextChange = (e) => {
@@ -195,7 +194,7 @@ if(Array.isArray(posts)){
       {
         id === currentUser.uid && //only show if this is the users page
         <div className="accountInfo">
-        <Button onClick={()=>{
+        <Button variant='contained' id='submitButton' onClick={()=>{
             if (!editingImage) {
                 setEditingImage(true);
                 setImageFormData({})
@@ -209,16 +208,15 @@ if(Array.isArray(posts)){
       { editingImage &&  //only show if editing image
       <div className="accountInfo">
         <br/>
-      <label>Image: 
-              <input
+          <h3>Image:</h3>
+              <Input
                 onChange={(e) => handleImageChange(e)}
                 id="Image"
                 name="image"
                 accept="image/*"
                 type="file">
-              </input>
-            </label>
-            <Button style={{ marginLeft: '10px' }} id="submitButton2" variant="contained" onClick={editImage}>
+              </Input>
+            <Button variant='contained' id='submitButton' style={{ marginLeft: '10px' }} onClick={editImage}>
             Submit
           </Button>
           </div>
@@ -242,14 +240,14 @@ if(Array.isArray(posts)){
 
       {
         user.description !== "" &&
-        <div className="accountInfo">
+        <div style={{marginBottom: "10px"}} className="accountInfo">
             {user.description}
         </div>
       }
       {
         id === currentUser.uid && //only show if this is the users page
         <div className="accountInfo">
-        <Button onClick={()=>{
+        <Button variant='contained' id='submitButton' onClick={()=>{
             if (!editingDesc) {
                 setEditingDesc(true);
                 setDescFormData("")
@@ -263,14 +261,14 @@ if(Array.isArray(posts)){
       { editingDesc &&  //only show if editing image
       <div className="accountInfo">
         <br/>
-      <label>Description: 
-              <input
+        <h3>Description:</h3>
+
+              <Input
                 onChange={(e) => handleTextChange(e)}
                 id="description"
                 name="description"
                 placeholder='Enter Description...'>
-              </input>
-            </label>
+              </Input>
             <Button style={{ marginLeft: '10px' }} id="submitButton2" variant="contained" onClick={editDesc}>
             Submit
           </Button>

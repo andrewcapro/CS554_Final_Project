@@ -80,4 +80,54 @@ router
         }
     })
 
+router
+    .route('/get')
+    .post(async (req, res) => {
+        try{
+            let exerciseInfo = req.body;
+            let workoutCreatorId = exerciseInfo.workoutCreatorId;
+            let workoutId = exerciseInfo.workoutId;
+            console.log(req.body);
+            let workout = await exerciseData.getWorkout(workoutCreatorId, workoutId);
+            res.status(200).json(workout);
+        }
+        catch(e){
+            console.log(e)
+            res.status(500).json(e)
+        }
+    })
+
+router
+    .route('/getall')
+    .post(async (req, res) => {
+        try{
+            let exerciseInfo = req.body;
+            let workoutCreatorId = exerciseInfo.workoutCreatorId;
+            console.log(req.body);
+            let workout = await exerciseData.getAllWorkouts(workoutCreatorId);
+            res.status(200).json(workout);
+        }
+        catch(e){
+            console.log(e)
+            res.status(500).json(e)
+        }
+    })    
+
+router
+    .route('/delete')
+    .post(async (req, res) => {
+        try{
+            let exerciseInfo = req.body;
+            let workoutCreatorId = exerciseInfo.workoutCreatorId;
+            let workoutId = exerciseInfo.workoutId;
+            console.log(req.body);
+            let workout = await exerciseData.deleteWorkout(workoutCreatorId, workoutId);
+            res.status(200).json(workout);
+        }
+        catch(e){
+            console.log(e)
+            res.status(500).json(e)
+        }
+    })    
+
 module.exports = router;

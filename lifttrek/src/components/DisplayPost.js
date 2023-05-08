@@ -3,6 +3,7 @@ import { Grid, Button, Card, CardMedia, CardContent, CardActionArea, Typography 
 import axios from 'axios';
 import {useParams} from "react-router-dom"
 import CreateComment from './CreateComment';
+import TextField from '@mui/material';
 
 function DisplayPost() {
   const [post, setPost] = useState({})

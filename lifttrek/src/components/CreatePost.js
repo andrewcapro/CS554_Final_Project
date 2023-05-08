@@ -2,7 +2,8 @@ import { Button } from '@mui/material';
 import React, { useState, useContext } from 'react'
 import axios from "axios";
 import {AuthContext} from '../firebase/Auth';
-
+import TextField from '@mui/material/TextField';
+import Input from '@mui/material/Input';
 
 function CreatePost() {
 
@@ -10,42 +11,12 @@ function CreatePost() {
   const [textPostformData, setTextPostFormData] = useState({});
   const [imagePostformData, setImagePostFormData] = useState({});
   const {currentUser} = useContext(AuthContext);
+  const [success, setSuccess] = useState(false);
 
 
   const handleTextPostChange = (e) => {
     setTextPostFormData((prev) => ({...prev, [e.target.name]: e.target.value}));
   };
-
-  // const makePolaroid = async () => {
-  //   const outputImage = document.getElementById("displayimage");
-
-  //   const sourceImage = URL.createObjectURL(imagePostformData.image);
-  //   const { outputFiles, exitCode, stderr} = await execute({
-  //     inputFiles: [await buildInputFile(sourceImage, 'image1.png')],
-  //     commands: `
-  //       convert image1.png -bordercolor #ffee44 -background #eeff55 +polaroid image2.png
-  //       convert image2.png -fill #997711 -tint 55 image3.jpg
-  //   `
-  //   })
-  //   if (exitCode) {
-  //     alert(`There was an error with the command: ${stderr.join('\n')}`)
-  //   }
-  //   else {
-  //     await loadImageElement(outputFiles[1], document.querySelector('#displayimage'))
-  //   }
-
-  // }
-
-  function changeToBin(fileContent){
-    console.log(fileContent);
-    const reader = new FileReader();
-    reader.readAsDataURL(fileContent);
-    reader.onloadend = async function() {
-        const base64data = reader.result;                
-        console.log(base64data);
-        return base64data;
-      }
-  }
 
   const handleImagePostChange = (e) => {
     if(e.target.name === "image"){
@@ -64,6 +35,7 @@ function CreatePost() {
     const {data} = await axios.get("http://localhost:4000/users/" + currentUser.uid)
     await axios.post("http://localhost:4000/posts/createTextPost/", {title: textPostformData.title, body: textPostformData.body, userWhoPosted: {id: currentUser.uid, username: data.username}})
     setTextPostFormData({});
+    setSuccess(true)
   }
 
   const makeImagePost = async () => {
@@ -84,70 +56,74 @@ function CreatePost() {
       }
     })
     setImagePostFormData({})
+    setSuccess(true)
   }
 
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <div>
         <h2>Create Post</h2>
-        <Button style={{ marginLeft: '10px' }} onClick={() => {setType('text')}} variant='contained' id='blueButton'>Text Post</Button>
+        <Button onClick={() => {setType('text')}} variant='contained' id='blueButton'>Text Post</Button>
         <Button style={{ marginLeft: '10px' }} onClick={() => {setType('image')}} variant='contained' id='blueButton2'>Image Post</Button>
-        <br></br>
-        <br></br>
+      </div>
         <br></br>
         {type === 'text' && 
-          <div>
-            <label>Title: 
-              <input
-                onChange={(e) => handleTextPostChange(e)}
-                id="Title1"
-                name="title"
-                placeholder='Enter Title...'>
-              </input>
-            </label>
-            <br></br>
-            <br></br>
-            <label>Body: 
-              <input
-                onChange={(e) => handleTextPostChange(e)}
-                id="Body1"
-                name="body"
-                placeholder='Enter Body...'>
-              </input>
-            </label>
-            <br></br>
-            <br></br>
-            <br></br>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <h3>Text Post</h3>
+            <TextField 
+              onChange={(e) => handleTextPostChange(e)}
+              name="title"
+              id="Title1" 
+              label="Title" 
+              required
+            />
+            <br/>
+            <TextField 
+              onChange={(e) => handleTextPostChange(e)}
+              name="body"
+              id="Body1" 
+              label="Body" 
+              required
+            />
+            <br/>
             <Button style={{ marginLeft: '10px' }} id="submitButton" variant="contained" onClick={makeTextPost}>
               Create Post
             </Button>
+            <br/>
+            {success &&
+            <div>
+              Successfully uploaded post!
+            </div>
+            }
           </div>}
-          {type === "image" && <div>
-            <label>Title: 
-              <input
-                onChange={(e) => handleImagePostChange(e)}
-                id="Title2"
-                name="title"
-                placeholder='Enter Title...'>
-              </input>
-            </label>
-            <br></br>
-            <br></br>
-            <label>Image: 
-              <input
-                onChange={(e) => handleImagePostChange(e)}
-                id="Image"
-                name="image"
-                accept="image/*"
-                type="file">
-              </input>
-            </label>
+          {type === "image" && 
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <h3>Image Post</h3>
+            <TextField 
+              onChange={(e) => handleImagePostChange(e)}
+              name="title"
+              id="Title2" 
+              label="Title" 
+              required
+            />
+            <br/>
+            <Input 
+              onChange={(e) => handleImagePostChange(e)}
+              id="Image"
+              name="image"
+              accept="image/*"
+              type="file"></Input>
             <br></br>
           {imagePostformData.image && 
           <div>
           <img id="displayimage" src={URL.createObjectURL(imagePostformData.image)} width="250"/>
           <br/>
-          {/* <Button style={{ marginLeft: '10px' }} id="polaroid" variant="contained" onClick={makePolaroid}>Polaroid</Button> */}
+          {success &&
+            <div>
+              Successfully uploaded post!
+            </div>
+          }
           </div>
           }
             <br></br>

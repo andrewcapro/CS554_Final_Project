@@ -116,6 +116,8 @@ function FormContainer() {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
+  const [success, setSuccess] = useState(false);
+  const [successMsg, setSuccessMsg] = useState('Successfully created workout!');
 
   const [formDataList, setFormDataList] = useState([{ exerciseType: "any", muscle: "any", difficulty: "any", exercise: "any", reps: "1", sets: "1" }]);
 
@@ -197,17 +199,19 @@ function FormContainer() {
       }
       await axios.post("http://localhost:4000/exercises/create", postDetails);
       setError(false);
+      setSuccess(true);
     } catch(e){
       console.log(e)
       setError(true);
+      setSuccess(false);
       setErrorMsg(e.message);
     }
   }
   
   return (
     <div>
-      <h3 style={{ marginLeft: "10px" }}>Custom</h3>
-      <TextField style={{ marginLeft: "10px", marginBottom: "10px" }} id="outlined-basic" label="Workout Title" required variant="outlined" onChange={handleTitleChange}/>
+      <h3>Custom</h3>
+      <TextField style={{ marginBottom: "10px" }} id="outlined-basic" label="Workout Title" required variant="outlined" onChange={handleTitleChange}/>
       {formDataList.map((formData, index) => (
         <div key={index} style={{ display: "flex", alignItems: "center" }}>
           <Custom 
@@ -231,7 +235,6 @@ function FormContainer() {
         variant="contained"
         color="primary"
         startIcon={<AddIcon />}
-        style={{ marginLeft: "10px" }}
         onClick={handleAddForm}
         id="blueButton3"
       >
@@ -240,6 +243,12 @@ function FormContainer() {
       <Button style={{ marginLeft: "10px" }} id="submitButton" variant="contained" onClick={handleSubmit}>
         Submit Workout
       </Button>
+      {success &&
+      <div>
+        <br/>
+        <h3>{successMsg}</h3>
+      </div>
+      }
       {error &&
       <div>
         <br/>

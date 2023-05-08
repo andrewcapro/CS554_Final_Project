@@ -1,7 +1,7 @@
-import React, {useContext, useState} from 'react';
-import {useNavigate, Navigate, Redirect} from 'react-router-dom'
-import {AuthContext} from '../firebase/Auth'
+import React from 'react';
+import {useNavigate } from 'react-router-dom'
 import app from '../firebase/firebase';
+import { Button } from '@mui/material';
 
 
 const SignOutButton = () => {
@@ -18,9 +18,9 @@ const SignOutButton = () => {
     }
 
   return (
-    <button type='button' onClick={handleSignOut}>
+    <Button id="signoutButton" variant="contained" type='button' onClick={handleSignOut}>
       Sign Out
-    </button>
+    </Button>
   );
 };
 
