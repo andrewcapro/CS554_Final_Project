@@ -17,28 +17,34 @@ function Account() {
   const [editingDesc, setEditingDesc] = useState(false);
   const {id} = useParams();
   const {currentUser} = useContext(AuthContext);
+  const [imageExt, setImageExt] = useState("");
+  const [image, setImage] = useState(undefined);
   //console.log(id);
 
   //TODO: make this function get actually data, not test junk
   useEffect(() => { async function fetchData(){
-      let data = await fetch(`http://localhost:4000/posts/${id}/${page}`)
+      let data = await fetch(`http://localhost:4000/posts/post/${id}/${page}`)
       data = await data.json()
       setPosts(data);
       //console.log(data)
-      data = await fetch(`http://localhost:4000/posts/${id}/${page+1}`)
+      data = await fetch(`http://localhost:4000/posts/post/${id}/${page+1}`)
       if(Array.isArray(data)){
         setLastPage(false);
       }
-      else{
+      else {
         setLastPage(true);
       }
-      data = await fetch("http://localhost:4000/users/" + currentUser.uid);
+      data = await fetch("http://localhost:4000/users/" + id);
       data = await data.json();
-      //console.log(data);
+      // console.log(data);
       setUser(data);
+      if (data.image) {
+        setImageExt(data.image);
+        await getImage(id)
+      }
     }
     fetchData();
-  }, [page])
+  }, [page, editingImage, image])
 
   const incrementPage = () => {
     let newPage = page+1;
@@ -54,9 +60,19 @@ function Account() {
 
   const editImage = async () => {
     document.getElementById("Image").value = "";
-    await axios.post(`http://localhost:4000/users/${id}/image`, {image: URL.createObjectURL(imageFormData.image)})
+    let formData = new FormData();
+    const imagefile = imageFormData.image
+    formData.append('image', imagefile)
+    let {data} = await axios.post(`http://localhost:4000/users/${id}/image`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form=data'
+      }
+    })
     setImageFormData({})
     setEditingImage(false);
+    console.log(data);
+    setImageExt(data.image)
+    await getImage(id);
   }
 
   const editDesc = async () => {
@@ -64,6 +80,27 @@ function Account() {
     await axios.post(`http://localhost:4000/users/${id}/description`, {description: descFormData.description})
     setDescFormData({})
     setEditingDesc(false);
+  }
+
+  const getImage = async (id) => {
+    try {
+    //let {data} = axios.get(`https://cs554-lifttrek.s3.amazonaws.com/${id}.${imageExt}`)
+    let {data} = await axios.get(`http://localhost:4000/users/${id}/image`)
+    //console.log(data.image);
+    setImage(data.image);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const getImageP = async (id) => {
+    try {
+    //let {data} = axios.get(`https://cs554-lifttrek.s3.amazonaws.com/${id}.${imageExt}`)
+    let {data} = await axios.get(`http://localhost:4000/posts/image/${id}`)
+    return data.image;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   const handleImageChange = (e) => {
@@ -109,7 +146,7 @@ function Account() {
                 >
                   {item.title}
                 </Typography>
-                {item.image && <CardMedia
+                {item.image && <CardMedia id={`${item.id}image`}
                     sx={{
                       height: '100%',
                       width: '100%'
@@ -128,21 +165,39 @@ function Account() {
     );
   };
 
-let cards = []
-console.log(posts);
-if(Array.isArray(posts)){
-  cards = posts.map((post) => {
-    return buildCard(post);
-  }) 
-}
+  let i = -1;
+  let cards = []
+  let imageIds = []
+  console.log(posts);
+  if(Array.isArray(posts)){
+    cards = posts.map((post) => {
+      if (post.image) imageIds.push(post.id);
+      return buildCard(post);
+    }) 
+  }
+  console.log(cards);
+  
+  if (Array.isArray(posts)){
+    cards.map(async (card) => {
+      i++;
+      let currentIm = document.getElementById(`${imageIds[i]}image`)
+      if (currentIm){
+      let {data} = await axios.get("http://localhost:4000/posts/" + imageIds[i])
+      let ext = data.image; //stores extension at first
+      console.log(imageIds[i])
+      let ima = await getImageP(imageIds[i]);
+      currentIm.src = `data:image/${ext};base64,${ima}`
+      }
+    })
+  }
 
 
   return (
     <div>
       {
         user.image !== "" && 
-        <div  style={{marginBottom: "10px"}} className="accountInfo">
-            <img src={user.image} alt="profile picture" title="profile picture"></img>
+        <div className="accountInfo">
+            <img src={`data:image/${imageExt};base64,${image}`} alt="profile picture" title="profile picture"></img>
         </div>
       }
       {

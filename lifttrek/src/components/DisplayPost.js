@@ -10,6 +10,7 @@ function DisplayPost() {
   const [post, setPost] = useState({})
   let {id} = useParams()
   const [postComments, setPostComments] = useState([]);
+  const [image, setImage] = useState(undefined);
   const {currentUser} = useContext(AuthContext);
 
 
@@ -18,9 +19,30 @@ function DisplayPost() {
       setPost(data);
       setPostComments(data.comments)
       console.log(data)
+      if (data.image){
+        await getImage(data.id);
+      }
     }
     fetchData();
   }, [id])
+
+  const getImage = async (id) => {
+    try {
+    //let {data} = axios.get(`https://cs554-lifttrek.s3.amazonaws.com/${id}.${imageExt}`)
+    let {data} = await axios.get(`http://localhost:4000/posts/image/${id}`)
+    //console.log(data.image);
+    setImage(data.image);
+    forceRerender();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  function forceRerender(){
+    setPost((prev) =>{
+      return {...prev};
+    })
+  }
 
   async function UpdateComments() {
     const {data} = await axios.get("http://localhost:4000/posts/" + id)
@@ -66,7 +88,7 @@ function DisplayPost() {
                     width: '100%'
                   }}
                   component='img'
-                  image={post.image}
+                  image={`data:image/${post.image};base64,${image}`}
                   title='post image'
                 />}
               <Typography variant='body2' color='textSecondary' component='p'>
