@@ -11,4 +11,5 @@ In order to run our project, required technologies are:
 Redis is downloadable from the same way we have used in our course content
 GraphicsMagick can be downloaded from https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick-binaries/1.3.40/
     Any of the links should work, but I personally used the one with the most downloads per week (The bottom one).
+    Restart your computer after installing to get the path included in your enviornment.
 Firebase Auth and AWS S3 do not need any additional technologies, but the information for testing will provided to the TA.

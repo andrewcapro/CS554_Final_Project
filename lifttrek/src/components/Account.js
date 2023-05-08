@@ -44,12 +44,16 @@ function Account() {
       }
     }
     fetchData();
-  }, [page, editingImage, image])
+  }, [page, editingImage, image, editingDesc])
 
   const incrementPage = () => {
     let newPage = page+1;
     setPage(newPage);
     console.log(newPage);
+  }
+
+  function forceRerender(){
+    setEditingImage(editingImage);
   }
 
   const decrementPage = () => {
@@ -88,6 +92,7 @@ function Account() {
     let {data} = await axios.get(`http://localhost:4000/users/${id}/image`)
     //console.log(data.image);
     setImage(data.image);
+    forceRerender();
     } catch (e) {
       console.log(e);
     }
