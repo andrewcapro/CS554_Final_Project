@@ -123,7 +123,9 @@ function PostFeed() {
   console.log(posts);
   if(Array.isArray(posts)){
     cards = posts.map((post) => {
-      if (post.image) imageIds.push(post.id);
+      if (post.image){
+         imageIds.push(post.id);
+      }
       return buildCard(post);
     }) 
   }
@@ -131,15 +133,17 @@ function PostFeed() {
   
   if (Array.isArray(posts)){
     cards.map(async (card) => {
+      if(card.props.children.props.children.props.children.props.children[1]){
       i++;
       let currentIm = document.getElementById(`${imageIds[i]}image`)
-      if (currentIm){
+      //console.log(currentIm);
       let {data} = await axios.get("http://localhost:4000/posts/" + imageIds[i])
       let ext = data.image; //stores extension at first
       console.log(imageIds[i])
       let ima = await getImage(imageIds[i]);
       currentIm.src = `data:image/${ext};base64,${ima}`
-      }
+  
+    }
     })
   }
 

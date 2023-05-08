@@ -179,6 +179,7 @@ function Account() {
   
   if (Array.isArray(posts)){
     cards.map(async (card) => {
+      if(card.props.children.props.children.props.children.props.children[1]){
       i++;
       let currentIm = document.getElementById(`${imageIds[i]}image`)
       if (currentIm){
@@ -188,6 +189,7 @@ function Account() {
       let ima = await getImageP(imageIds[i]);
       currentIm.src = `data:image/${ext};base64,${ima}`
       }
+    }
     })
   }
 
