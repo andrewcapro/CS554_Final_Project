@@ -8,10 +8,10 @@ function CreateWorkout() {
     const [type, setType] = useState('');
 
     return (
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <div>
                 <h2>Create Workout</h2>     
-                <Button style={{ marginLeft: '10px' }} onClick={() => {setType('custom')}} variant='contained' id='blueButton'>Custom</Button>
+                <Button onClick={() => {setType('custom')}} variant='contained' id='blueButton'>Custom</Button>
                 <Button style={{ marginLeft: '10px' }} onClick={() => {setType('random')}} variant='contained' id='blueButton2'>Randomized</Button>
             </div>
             <div className='createWrapper'>

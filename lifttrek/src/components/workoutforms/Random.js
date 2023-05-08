@@ -68,7 +68,7 @@ function Random() {
 
   return (
     <div>
-      <h3 style={{ marginLeft: "10px" }}>Random</h3>
+      <h3>Random</h3>
       <FormControl sx={{ m: 1, minWidth: 150 }}>
         <InputLabel id="exerciseType-label">Exercise Type</InputLabel>
         <Select
@@ -114,7 +114,6 @@ function Random() {
       <br />
       <br />
       <Button
-        style={{ marginLeft: "10px" }}
         variant="contained"
         onClick={handleRandomize}
         id="blueButton3"

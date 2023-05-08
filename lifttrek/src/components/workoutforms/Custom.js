@@ -210,8 +210,8 @@ function FormContainer() {
   
   return (
     <div>
-      <h3 style={{ marginLeft: "10px" }}>Custom</h3>
-      <TextField style={{ marginLeft: "10px", marginBottom: "10px" }} id="outlined-basic" label="Workout Title" required variant="outlined" onChange={handleTitleChange}/>
+      <h3>Custom</h3>
+      <TextField style={{ marginBottom: "10px" }} id="outlined-basic" label="Workout Title" required variant="outlined" onChange={handleTitleChange}/>
       {formDataList.map((formData, index) => (
         <div key={index} style={{ display: "flex", alignItems: "center" }}>
           <Custom 
@@ -235,7 +235,6 @@ function FormContainer() {
         variant="contained"
         color="primary"
         startIcon={<AddIcon />}
-        style={{ marginLeft: "10px" }}
         onClick={handleAddForm}
         id="blueButton3"
       >

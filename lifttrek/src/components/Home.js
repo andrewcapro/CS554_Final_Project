@@ -2,9 +2,9 @@ import React from 'react'
 
 function Home() {
   return (
-    <div>
-      Welcome to LiftTrek
-      {/* <button onClick={() => app.auth().signOut()}>Sign Out</button> */}
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <h2>Welcome to LiftTrek</h2>
+      <p>Description, someone write something please</p>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import React, { useState, useContext } from 'react'
 import axios from "axios";
 import {AuthContext} from '../firebase/Auth';
@@ -25,16 +25,14 @@ function CreateComment(props) {
     <div>
         <h3>Create Comment</h3>
           <div>
-            <label>Comment:
-              <input
+              <TextField
                 style={{marginLeft: "5px"}}
                 type="textarea"
                 onChange={(e) => handleCommentChange(e)}
                 id="body"
                 name="body"
-                placeholder='Enter Comment...'>
-              </input>
-            </label>
+                label="Comment">
+              </TextField>
             <br></br>
             <br></br>
             <Button style={{ marginLeft: '10px' }} id="submitButton" variant="contained" onClick={makeComment}>

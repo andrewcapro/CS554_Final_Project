@@ -56,6 +56,10 @@ a:focus { text-decoration: none; color:teal; }
   background-color: #568300;
 }
 
+#signoutButton {
+  background-color: #AF5082;
+}
+
 .createWrapper {
   display: flex;
   justify-content: center;
