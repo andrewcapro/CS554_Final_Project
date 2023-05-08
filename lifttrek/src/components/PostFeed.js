@@ -106,6 +106,10 @@ function PostFeed() {
                 <Typography variant='body2' color='textSecondary' component='p'>
                   Posted by: {item.userWhoPosted && item.userWhoPosted.username}
                 </Typography>
+                <Typography variant='body2' color='textSecondary' component='p'>
+                  Likes: {item.likes.length} | Comments: {item.comments.length}
+                </Typography>
+                {/* Add number of comments and number of likes here */}
               </CardContent>
           </CardActionArea>
         </Card>

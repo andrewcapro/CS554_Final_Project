@@ -23,22 +23,21 @@ function CreateComment(props) {
 
   return (
     <div>
-        <h3>Create Comment</h3>
-          <div>
-              <TextField
-                style={{marginLeft: "5px"}}
-                type="textarea"
-                onChange={(e) => handleCommentChange(e)}
-                id="body"
-                name="body"
-                label="Comment">
-              </TextField>
-            <br></br>
-            <br></br>
-            <Button style={{ marginLeft: '10px' }} id="submitButton" variant="contained" onClick={makeComment}>
-              Create Comment
-            </Button>
-          </div>
+        <div>
+            <TextField
+            style={{marginLeft: "5px"}}
+            type="textarea"
+            onChange={(e) => handleCommentChange(e)}
+            id="body"
+            name="body"
+            label="Comment">
+            </TextField>
+        <br></br>
+        <br></br>
+        <Button style={{ marginLeft: '10px' }} id="submitButton" variant="contained" onClick={makeComment}>
+            Create Comment
+        </Button>
+        </div>
     </div>
   )
 }

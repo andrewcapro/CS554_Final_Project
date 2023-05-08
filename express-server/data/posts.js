@@ -150,6 +150,36 @@ async function addComment(postId, userWhoPosted, body){
 
 }
 
+async function deleteComment(postId, commentId) {
+    if (!postId) {
+        throw "postId not provided";
+    }
+    if (!commentId) {
+        throw "commentId not provided";
+    }
+    try {
+        let stringPost = await client.hGet("LiftTrek Posts", postId);
+        curpost = JSON.parse(stringPost);
+        let commentIndex = null;
+        for (let i = 0; i < curpost.comments.length; i++) {
+            if (curpost.comments[i].id == commentId) {
+                commentIndex = i;
+                break;
+            }
+        }
+        if (commentIndex == null) {
+            throw "Specified comment ID not in given post"
+        } else {
+            curpost.comments.splice(commentIndex, 1);
+            let newStringPost = JSON.stringify(curpost);
+            await client.hSet("LiftTrek Posts", postId, newStringPost);
+            return curpost;
+        }
+    } catch (e) {
+        throw "Error in deleteComment: " + e
+    }
+}
+
 module.exports = {
     createTextPost,
     createImagePost,
@@ -157,5 +187,6 @@ module.exports = {
     getPostById,
     getPostsByUser,
     likePost,
-    addComment
+    addComment,
+    deleteComment
 }
