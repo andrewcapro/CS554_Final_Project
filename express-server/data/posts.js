@@ -110,7 +110,7 @@ async function likePost(postId, userId){
     try{
         let stringPost = await client.hGet("LiftTrek Posts", postId)
         post = JSON.parse(stringPost);
-        if(post.likes.includes(userId)){
+        if(!post.likes.includes(userId)){
             post.likes.push(userId);
         }
         else{

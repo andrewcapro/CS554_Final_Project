@@ -11,13 +11,19 @@ function DisplayPost() {
   let {id} = useParams()
   const [postComments, setPostComments] = useState([]);
   const {currentUser} = useContext(AuthContext);
+  const [likeStatus, setLikeStatus] = useState(false)
+  const [likesCount, setLikesCount] = useState(0)
 
 
   useEffect(() => { async function fetchData(){
       const {data} = await axios.get("http://localhost:4000/posts/" + id)
       setPost(data);
-      setPostComments(data.comments)
-      console.log(data)
+      setPostComments(data.comments);
+      if (data.likes.includes(currentUser.uid)) {
+        setLikeStatus(true);
+      }
+      setLikesCount(data.likes.length);
+      console.log(data);
     }
     fetchData();
   }, [id])
@@ -25,6 +31,18 @@ function DisplayPost() {
   async function UpdateComments() {
     const {data} = await axios.get("http://localhost:4000/posts/" + id)
     setPostComments(data.comments)
+  }
+
+  async function UpdateLikes() {
+    const {data} = await axios.get("http://localhost:4000/posts/" + id)
+    setLikeStatus(!likeStatus)
+    setLikesCount(data.likes.length)
+  }
+
+  const changeLike = async (post_id) => {
+    const {data} = await axios.get("http://localhost:4000/users/" + currentUser.uid)
+    await axios.post(`http://localhost:4000/posts/like/${post_id}`, {userWhoPosted: {id: currentUser.uid, username: data.username}})
+    UpdateLikes();
   }
 
   const deleteComment = async (post_id, comment_id) =>  {
@@ -72,6 +90,17 @@ function DisplayPost() {
               <Typography variant='body2' color='textSecondary' component='p'>
                 Posted by: {post.userWhoPosted && post.userWhoPosted.username}
               </Typography>
+              <h3>Likes ({likesCount})</h3>
+              {
+                likeStatus == false && <Button style={{ backgroundColor: '#32CD32' }} variant="contained" onClick={() => changeLike(post.id)}>
+                  Like
+                </Button>
+              }
+              {
+                likeStatus == true && <Button style={{ backgroundColor: '#FF0000' }} variant="contained" onClick={() => changeLike(post.id)}>
+                  Remove Like
+                </Button>
+              }
               <h3>Comments ({postComments.length})</h3>
               <CreateComment post={post} UpdateComments={UpdateComments}/>
               <br></br>

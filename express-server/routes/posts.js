@@ -94,10 +94,10 @@ router
     })
 
 router
-    .route("/like/:postId/:userId")
+    .route("/like/:postId")
     .post(async (req, res) => {
         try{
-            let post = await postData.likePost(req.params.postId, req.params.userId)
+            let post = await postData.likePost(req.params.postId, req.body.userWhoPosted.id)
             res.status(200).json(post)
         }
         catch(e){
