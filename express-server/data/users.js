@@ -12,10 +12,10 @@ async function createUser(id, username, email){
     return JSON.parse(createdUser)
 }
 
-async function addProfilePicture(id, image){
+async function addProfilePicture(id, imageExt){
     let storedUser = await client.hGet('LiftTrek Users', id);
     let storedUserJ = JSON.parse(storedUser);
-    storedUserJ.image = image;
+    storedUserJ.image = imageExt;
     await client.hSet("LiftTrek Users", id, JSON.stringify(storedUserJ));
     let createdUser = await client.hGet("LiftTrek Users", id)
     return JSON.parse(createdUser)

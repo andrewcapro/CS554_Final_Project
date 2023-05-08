@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const redis = require('redis');
 const client = redis.createClient();
+const gm = require('gm');
+
 client.connect().then(() => {});
 const data = require("../data");
 const postData = data.posts;
@@ -26,12 +28,22 @@ router
     .route("/createImagePost")
     .post(async (req, res) => {
         try{
+            const {image} = req.files;
+            if (!image.data) throw "Error: File not uploaded."
+            console.log(image);
+            // image.mv(name)
             let title = req.body.title
-            let image = req.body.image  
-            let userWhoPosted = req.body.userWhoPosted
-            let createdPost = await postData.createImagePost(title, image, userWhoPosted);
+            // let image = req.body.image  
+            // userWhoPosted: {id: currentUser.uid, username: data.username}
+            let userWhoPosted = {id: req.body.currentUser, username: req.body.username}
+            let createdPost = await postData.createImagePost(title, image.mimetype.split("/")[1], userWhoPosted);
             console.log(createdPost.id)
-            await uploadFile(createdPost.id, image);
+            //await uploadFile(createdPost.id, image);
+            gm(image.data).resize(500, 500, "!").toBuffer(async function (err, buff){
+                if (err) throw err
+                if (!err) await uploadFile(createdPost.id+"."+image.mimetype.split("/")[1], buff);
+                //await uploadFile(createdPost.id, image);
+            })
             res.status(200).json(createdPost);
         }
         catch(e){

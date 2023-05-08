@@ -17,6 +17,8 @@ function Account() {
   const [editingDesc, setEditingDesc] = useState(false);
   const {id} = useParams();
   const {currentUser} = useContext(AuthContext);
+  const [imageExt, setImageExt] = useState(undefined);
+  const [image, setImage] = useState(undefined);
   //console.log(id);
 
   //TODO: make this function get actually data, not test junk
@@ -36,9 +38,11 @@ function Account() {
       data = await data.json();
       //console.log(data);
       setUser(data);
+      setImageExt(user.image);
+      getImage(id);
     }
     fetchData();
-  }, [page])
+  }, [page, editingImage])
 
   const incrementPage = () => {
     let newPage = page+1;
@@ -52,11 +56,42 @@ function Account() {
     console.log(newPage);
   }
 
+  // const makeImagePost = async () => {
+  //   document.getElementById("Title2").value = "";
+  //   document.getElementById("Image").value = "";
+  //   const {data} = await axios.get("http://localhost:4000/users/" + currentUser.uid)
+  //   var formData = new FormData();
+  //   const imagefile = imagePostformData.image
+  //   console.log(imagefile);
+  //   formData.append('image', imagefile)
+  //   formData.append("title", imagePostformData.title);
+  //   formData.append("currentUser", currentUser.uid);
+  //   formData.append("username", data.username);
+  //   //formData.append('postData', {title: imagePostformData.title, userWhoPosted: {id: currentUser.uid, username: data.username}})
+  //   await axios.post("http://localhost:4000/posts/createImagePost/", formData, {
+  //     headers: {
+  //       'Content-Type': 'multipart/form=data'
+  //     }
+  //   })
+  //   setImagePostFormData({})
+  // }
+
   const editImage = async () => {
     document.getElementById("Image").value = "";
-    await axios.post(`http://localhost:4000/users/${id}/image`, {image: URL.createObjectURL(imageFormData.image)})
+    let formData = new FormData();
+    const imagefile = imageFormData.image
+    formData.append('image', imagefile)
+    let {data} = await axios.post(`http://localhost:4000/users/${id}/image`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form=data'
+      }
+    })
+    //await axios.post(`http://localhost:4000/users/${id}/image`, {image: URL.createObjectURL(imageFormData.image)})
     setImageFormData({})
     setEditingImage(false);
+    console.log(data);
+    setImageExt(data.image)
+    await getImage(id);
   }
 
   const editDesc = async () => {
@@ -64,6 +99,17 @@ function Account() {
     await axios.post(`http://localhost:4000/users/${id}/description`, {description: descFormData.description})
     setDescFormData({})
     setEditingDesc(false);
+  }
+
+  const getImage = async (id) => {
+    try {
+    //let {data} = axios.get(`https://cs554-lifttrek.s3.amazonaws.com/${id}.${imageExt}`)
+    let {data} = await axios.get(`http://localhost:4000/users/${id}/image/${imageExt}`)
+    console.log(data.image);
+    setImage(data.image);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   const handleImageChange = (e) => {
@@ -141,8 +187,8 @@ if(Array.isArray(posts)){
     <div>
       {
         user.image !== "" && 
-        <div  style={{marginBottom: "10px"}} className="accountInfo">
-            <img src={user.image} alt="profile picture" title="profile picture"></img>
+        <div className="accountInfo">
+            <img src={`data:image/${imageExt};base64,${image}`} alt="profile picture" title="profile picture"></img>
         </div>
       }
       {
