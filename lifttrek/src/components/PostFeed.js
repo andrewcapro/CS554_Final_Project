@@ -106,13 +106,27 @@ function PostFeed() {
                 <Typography variant='body2' color='textSecondary' component='p'>
                   {item.body && item.body.substring(0, 15)} {item.body && item.body.length >= 15 && '...'}
                 </Typography>
+                {item.workout &&
+                  <div>
+                    <Typography style={{textAlign: 'center'}} variant='body2' component='p'>
+                      (Workout Post)
+                    </Typography>
+                    <Typography variant='body2' component='p'>
+                      Exercises:
+                    </Typography>
+                    <Typography style={{ paddingLeft: 20 }}variant='body2' color='textSecondary' component='ul'>
+                      {item.workout.exercises && item.workout.exercises.map(exercise => {
+                        return <li key={exercise.id}>{exercise.name}</li>
+                      })}
+                    </Typography>
+                  </div>
+                }
                 <Typography variant='body2' color='textSecondary' component='p'>
                   Posted by: {item.userWhoPosted && item.userWhoPosted.username}
                 </Typography>
                 <Typography variant='body2' color='textSecondary' component='p'>
                   Likes: {item.likes.length} | Comments: {item.comments.length}
                 </Typography>
-                {/* Add number of comments and number of likes here */}
               </CardContent>
           </CardActionArea>
         </Card>
@@ -144,8 +158,11 @@ function PostFeed() {
       let ext = data.image; //stores extension at first
       console.log(imageIds[i])
       let ima = await getImage(imageIds[i]);
-      currentIm.src = `data:image/${ext};base64,${ima}`
-  
+      try {
+        currentIm.src = `data:image/${ext};base64,${ima}`
+      } catch {
+
+      }
     }
     })
   }

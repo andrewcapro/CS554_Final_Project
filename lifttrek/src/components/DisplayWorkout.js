@@ -24,8 +24,8 @@ function DisplayWorkout() {
             const response = await axios.post("http://localhost:4000/exercises/get", data)
             setWorkoutData(response.data);
         } catch(e){
-          setLoading(false);
           setError(true);
+          setLoading(false);
           console.log(e);
         }
     }
@@ -41,8 +41,8 @@ function DisplayWorkout() {
         setLoading(false);
         setError(false);
       } catch(e){
+        setError(true)
         setLoading(false);
-        setError(true);
         console.log(e);
       }
     }
@@ -62,26 +62,27 @@ function DisplayWorkout() {
   else{
     return (
       <div className='containerWorkout'>
-        <div id='displayWorkout'>
+        {workoutData &&
+          <div id='displayWorkout'>
           <div className='headerWorkout'>
             <h2>{workoutData.title}</h2>
             <h3>Created by: {userData.username}</h3>
             <h3>Exercises:</h3>
           </div>
           <ul>
-          {workoutData.exercises.map((exercise) => {
-            return (
-                <li key={exercise.name}>
-                  <h4>{exercise.name.charAt(0).toUpperCase() + exercise.name.slice(1)}</h4>
-                  <p>Type: {exercise.type.charAt(0).toUpperCase() + exercise.type.slice(1)}</p>
-                  <p>Muscle: {exercise.muscle.charAt(0).toUpperCase() + exercise.muscle.slice(1)}</p>
-                  <p>Equipment: {exercise.equipment.charAt(0).toUpperCase() + exercise.equipment.slice(1)}</p>
-                  <p>Difficulty: {exercise.difficulty.charAt(0).toUpperCase() + exercise.difficulty.slice(1)}</p>
-                  <p>{exercise.sets} sets of {exercise.reps} reps</p>
-                  <p>Instructions: {exercise.instructions}</p>
-                </li>
-              )
-          })}
+            {workoutData.exercises.map((exercise) => {
+              return (
+                  <li key={exercise.name}>
+                    <h4>{exercise.name.charAt(0).toUpperCase() + exercise.name.slice(1)}</h4>
+                    <p>Type: {exercise.type.charAt(0).toUpperCase() + exercise.type.slice(1)}</p>
+                    <p>Muscle: {exercise.muscle.charAt(0).toUpperCase() + exercise.muscle.slice(1)}</p>
+                    <p>Equipment: {exercise.equipment.charAt(0).toUpperCase() + exercise.equipment.slice(1)}</p>
+                    <p>Difficulty: {exercise.difficulty.charAt(0).toUpperCase() + exercise.difficulty.slice(1)}</p>
+                    <p>{exercise.sets} sets of {exercise.reps} reps</p>
+                    <p>Instructions: {exercise.instructions}</p>
+                  </li>
+                )
+            })}
           </ul>
           <br/>
           <div className='headerWorkout'>
@@ -98,10 +99,11 @@ function DisplayWorkout() {
             }}
             id='blueButton2'
             variant='contained'>
-              <NavLink to={`/editworkout/${id}`}>Post Workout</NavLink>
+              <NavLink to={`/createpost`}>Post Workout</NavLink>
             </Button>
           </div>
         </div>
+        }
       </div>
     )
   }

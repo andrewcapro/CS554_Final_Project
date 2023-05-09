@@ -112,18 +112,40 @@ function DisplayPost() {
                 <Typography style={{ wordBreak: "break-word" }} variant='body2' color='textSecondary' component='p'>
                   {post.body && post.body}
                 </Typography>
+
+                {post.workout &&
+                <div>
+                  <Typography component='ul'>
+                  {post.workout.exercises.map((exercise) => {
+                    return (
+                        <li key={exercise.name}>
+                          <h3>{exercise.name.charAt(0).toUpperCase() + exercise.name.slice(1)}</h3>
+                          <p>Type: {exercise.type.charAt(0).toUpperCase() + exercise.type.slice(1)}</p>
+                          <p>Muscle: {exercise.muscle.charAt(0).toUpperCase() + exercise.muscle.slice(1)}</p>
+                          <p>Equipment: {exercise.equipment.charAt(0).toUpperCase() + exercise.equipment.slice(1)}</p>
+                          <p>Difficulty: {exercise.difficulty.charAt(0).toUpperCase() + exercise.difficulty.slice(1)}</p>
+                          <p>{exercise.sets} sets of {exercise.reps} reps</p>
+                          { exercise.instructions &&
+                            <p>Instructions: {exercise.instructions}</p>
+                          }
+                        </li>
+                      )
+                  })}
+                  </Typography>
+                </div>
+                }
                 <br></br>
               <Typography variant='body2' color='textSecondary' component='p'>
                 Posted by: {post.userWhoPosted && post.userWhoPosted.username}
               </Typography>
               <h3>Likes ({likesCount})</h3>
               {
-                likeStatus == false && <Button style={{ backgroundColor: '#32CD32' }} variant="contained" onClick={() => changeLike(post.id)}>
+                likeStatus == false && <Button style={{ backgroundColor: '#008a00' }} variant="contained" onClick={() => changeLike(post.id)}>
                   Like
                 </Button>
               }
               {
-                likeStatus == true && <Button style={{ backgroundColor: '#FF0000' }} variant="contained" onClick={() => changeLike(post.id)}>
+                likeStatus == true && <Button style={{ backgroundColor: '#EE0000' }} variant="contained" onClick={() => changeLike(post.id)}>
                   Remove Like
                 </Button>
               }

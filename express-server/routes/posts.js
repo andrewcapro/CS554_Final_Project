@@ -13,9 +13,25 @@ router
     .post(async (req, res) => {
         try{
             let title = req.body.title
-            let body = req.body.body  
+            let body = req.body.body
             let userWhoPosted = req.body.userWhoPosted
             let createdPost = await postData.createTextPost(title, body, userWhoPosted);
+            res.status(200).json(createdPost);
+        }
+        catch(e){
+            console.log(e)
+            res.status(400).json(e)
+        }
+    })
+
+router
+    .route("/createWorkoutPost")
+    .post(async (req, res) => {
+        try{
+            let title = req.body.title
+            let workout_id = req.body.workout_id
+            let userWhoPosted = req.body.userWhoPosted
+            let createdPost = await postData.createWorkoutPost(title, workout_id, userWhoPosted);
             res.status(200).json(createdPost);
         }
         catch(e){

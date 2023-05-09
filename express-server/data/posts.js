@@ -3,6 +3,7 @@ const uuid = require('uuid');
 const redis = require("redis");
 const client = redis.createClient();
 client.connect().then(() => {});
+const workoutFunctions = require('./exercise')
 
 async function createTextPost(title, body, userWhoPosted){
     if(!title){
@@ -40,6 +41,34 @@ async function createImagePost(title, imageExt, userWhoPosted){
     //TODO: Add way to store images via AWS S3
     //Images uploaded via current method only last for the current session
     let newPost = {id: postId, title: title, userWhoPosted: userWhoPosted, image: imageExt, likes:[], comments:[]}
+    let storedPost = JSON.stringify(newPost);
+    await client.hSet("LiftTrek Posts", postId, storedPost)
+    //Need some consistent way to organize posts
+    //Figured it could be done through a sorted set based on time
+    await client.zAdd("LiftTrek Post Feed", {score: Date.now(), value: postId});
+    await client.zAdd(`${userWhoPosted.id} Posts`, {score: Date.now(), value: postId});
+    return newPost;
+}
+
+async function createWorkoutPost(title, workout_id, userWhoPosted){
+    if(!title){
+        throw "Error: title not provided"
+    }
+    if(!workout_id){
+        throw "Error: workout_id not provided"
+    }
+    if(!userWhoPosted){
+        throw "Error: user not provided"
+    }
+    let postId = uuid.v4();
+    let workout = ''
+    try {
+        workout = await workoutFunctions.getWorkout(userWhoPosted.id, workout_id)
+    }
+    catch (e) {
+        throw "Error in create workout post data func - " + e;
+    }
+    let newPost = {id: postId, title: title, workout: workout, userWhoPosted: userWhoPosted, likes:[], comments:[]}
     let storedPost = JSON.stringify(newPost);
     await client.hSet("LiftTrek Posts", postId, storedPost)
     //Need some consistent way to organize posts
@@ -183,6 +212,7 @@ async function deleteComment(postId, commentId) {
 module.exports = {
     createTextPost,
     createImagePost,
+    createWorkoutPost,
     getPosts,
     getPostById,
     getPostsByUser,
