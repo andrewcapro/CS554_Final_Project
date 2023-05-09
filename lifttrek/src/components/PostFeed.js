@@ -104,6 +104,9 @@ function PostFeed() {
                     title='item image'
                   />}
                 <Typography variant='body2' color='textSecondary' component='p'>
+                  {item.body && item.body.substring(0, 15)} {item.body && item.body.length >= 15 && '...'}
+                </Typography>
+                <Typography variant='body2' color='textSecondary' component='p'>
                   Posted by: {item.userWhoPosted && item.userWhoPosted.username}
                 </Typography>
                 <Typography variant='body2' color='textSecondary' component='p'>

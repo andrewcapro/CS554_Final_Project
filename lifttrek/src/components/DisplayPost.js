@@ -109,6 +109,10 @@ function DisplayPost() {
                   image={`data:image/${post.image};base64,${image}`}
                   title='post image'
                 />}
+                <Typography style={{ wordBreak: "break-word" }} variant='body2' color='textSecondary' component='p'>
+                  {post.body && post.body}
+                </Typography>
+                <br></br>
               <Typography variant='body2' color='textSecondary' component='p'>
                 Posted by: {post.userWhoPosted && post.userWhoPosted.username}
               </Typography>
@@ -160,7 +164,7 @@ function DisplayPost() {
                             </Button>
                           }
                         </Typography>
-                        <Typography variant='body2' color='textSecondary' component='p'>
+                        <Typography style={{ wordBreak: "break-word" }} variant='body2' color='textSecondary' component='p'>
                             {comment.body}
                         </Typography>
                       </CardContent>
