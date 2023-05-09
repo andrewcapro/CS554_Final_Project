@@ -4,7 +4,8 @@
   "description": "Express backend for LiftTrek",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "seed": "node seed.js"
   },
   "author": "",
   "license": "ISC",

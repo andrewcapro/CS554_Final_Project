@@ -9,7 +9,14 @@ In order to run our project, required technologies are:
     AWS S3.
 
 Redis is downloadable from the same way we have used in our course content
-GraphicsMagick can be downloaded from https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick-binaries/1.3.40/
-    Any of the links should work, but I personally used the one with the most downloads per week (The bottom one).
+GraphicsMagick can be downloaded from http://www.graphicsmagick.org/README.html
     Restart your computer after installing to get the path included in your enviornment.
 Firebase Auth and AWS S3 do not need any additional technologies, but the information for testing will provided to the TA.
+
+Our project requires two terminals to run. One to cd into lifttrek, and the other to cd into express-server.
+In the express-server terminal, or the server terminal, first run 'node seed.js', and press CTRL+C after the console logs the sentence "you can close me now." This will provide two posts, to go with the provided test user of "testuser@gmail.com" with the password "testing123".
+Afterwards, in the same terminal, type npm start to create the express server. 
+In the other terminal, the lifttrek one, simply run npm start, and use the website as needed!
+
+The firebase authentication information is shared with the TA already.
+The AWS S3 information is cslifttrek@gmail.com, with password CS554_23
