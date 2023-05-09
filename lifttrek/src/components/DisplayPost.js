@@ -5,6 +5,7 @@ import {useParams} from "react-router-dom"
 import CreateComment from './CreateComment';
 import TextField from '@mui/material';
 import {AuthContext} from '../firebase/Auth';
+import Link from '@mui/material/Link'
 
 function DisplayPost() {
   const [post, setPost] = useState({})
@@ -14,6 +15,7 @@ function DisplayPost() {
   const {currentUser} = useContext(AuthContext);
   const [likeStatus, setLikeStatus] = useState(false)
   const [likesCount, setLikesCount] = useState(0)
+  const [profileLink, setProfileLink] = useState('')
 
 
   useEffect(() => { async function fetchData(){
@@ -23,6 +25,7 @@ function DisplayPost() {
       if (data.likes.includes(currentUser.uid)) {
         setLikeStatus(true);
       }
+      setProfileLink('/account/' + data.userWhoPosted.id);
       setLikesCount(data.likes.length);
       if (data.image){
         await getImage(data.id);
@@ -136,7 +139,7 @@ function DisplayPost() {
                 }
                 <br></br>
               <Typography variant='body2' color='textSecondary' component='p'>
-                Posted by: {post.userWhoPosted && post.userWhoPosted.username}
+                Posted by: <Link href={profileLink}>{post.userWhoPosted && post.userWhoPosted.username}</Link>
               </Typography>
               <h3>Likes ({likesCount})</h3>
               {
