@@ -32,7 +32,7 @@ function Custom({ formData, handleExerciseTypeChange, handleMuscleChange, handle
 
   return (
     <div>
-      <FormControl sx={{ m: 1, minWidth: 150 }}>
+      <FormControl sx={{ m: 1, minWidth: 150 }} variant="standard">
         <InputLabel id="exerciseType-label">Exercise Type</InputLabel>
         <Select value={exerciseType} label="exerciseType" id="exerciseType-select" onChange={handleExerciseTypeChange}>
           <MenuItem value="any">Any</MenuItem>
@@ -42,7 +42,7 @@ function Custom({ formData, handleExerciseTypeChange, handleMuscleChange, handle
           <MenuItem value="strongman">Strongman</MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ m: 1, minWidth: 150 }}>
+      <FormControl variant="standard" sx={{ m: 1, minWidth: 150 }}>
         <InputLabel id="muscle-label">Muscle</InputLabel>
         <Select value={muscle} label="Muscle" id="muscle-select" onChange={handleMuscleChange}>
           <MenuItem value="any">Any</MenuItem>
@@ -64,7 +64,7 @@ function Custom({ formData, handleExerciseTypeChange, handleMuscleChange, handle
           <MenuItem value="triceps">Triceps</MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ m: 1, minWidth: 150 }}>
+      <FormControl variant="standard" sx={{ m: 1, minWidth: 150 }}>
         <InputLabel id="difficulty-label">Difficulty</InputLabel>
         <Select value={difficulty} label="Difficulty" id="difficulty-select" onChange={handleDifficultyChange}>
           <MenuItem value="any">Any</MenuItem>
@@ -73,7 +73,7 @@ function Custom({ formData, handleExerciseTypeChange, handleMuscleChange, handle
           <MenuItem value="expert">Expert</MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ m: 1, minWidth: 150 }}>
+      <FormControl variant="standard" sx={{ m: 1, minWidth: 150 }}>
         <InputLabel id="exercise-label">Exercise</InputLabel>
         <Select required value={exercise} label="Exercise" id="exercise-select" onChange={handleExerciseChange}>
           <MenuItem value="any">Any</MenuItem>
@@ -87,6 +87,7 @@ function Custom({ formData, handleExerciseTypeChange, handleMuscleChange, handle
       <FormControl sx={{ m: 1, width: 75 }}>
         <TextField required
           value={reps}
+          variant="standard"
           id="reps-label"
           label="Reps"
           inputProps={{ min: 1 }}
@@ -97,6 +98,7 @@ function Custom({ formData, handleExerciseTypeChange, handleMuscleChange, handle
       <FormControl sx={{ m: 1, width: 75 }}>
         <TextField required
           value={sets}
+          variant="standard"
           id="sets-label"
           label="Sets"
           inputProps={{ min: 1 }}
@@ -211,7 +213,8 @@ function FormContainer() {
   return (
     <div>
       <h3>Custom</h3>
-      <TextField style={{ marginBottom: "10px" }} id="outlined-basic" label="Workout Title" required variant="outlined" onChange={handleTitleChange}/>
+      <InputLabel htmlFor="title" shrink={true}>Title</InputLabel>
+      <TextField style={{ marginBottom: "10px" }} id="title" required variant="standard" onChange={handleTitleChange}/>
       {formDataList.map((formData, index) => (
         <div key={index} style={{ display: "flex", alignItems: "center" }}>
           <Custom 

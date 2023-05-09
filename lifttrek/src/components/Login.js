@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import {useNavigate, Navigate} from 'react-router-dom'
 import {AuthContext} from '../firebase/Auth'
 import app from '../firebase/firebase'
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, FormControl, InputLabel, FormHelperText } from '@mui/material';
 
 function Login() {
   const {currentUser} = useContext(AuthContext)
@@ -29,23 +29,23 @@ function Login() {
       <h2>Log in</h2>
       <form onSubmit={handleLogin}>
         <div className='form-group'>
-          <TextField               
-            className='form-control'
-            name='email'
-            id='email'
-            type='email'
-            label="Email"
-            required/>
+        <FormControl>
+            <InputLabel htmlFor="email" shrink={true}>Email</InputLabel>
+            <TextField name='email' type="email" id="email" required variant="filled"/>
+            <FormHelperText id="email-helper-text" aria-live="polite">
+              Type your email
+            </FormHelperText>
+          </FormControl>
         </div>
         <br/>
         <div className='form-group'>
-          <TextField               
-            className='form-control'
-            name='password'
-            type='password'
-            label='Password'
-            autoComplete='off'
-            required/>
+          <FormControl>
+            <InputLabel htmlFor="password" shrink={true}>Password</InputLabel>
+            <TextField name='password' type="password" id="password" autoComplete='off' required variant="filled"/>
+            <FormHelperText id="password-helper-text" aria-live="polite">
+              Type your password
+            </FormHelperText>
+          </FormControl>
         </div>
         <br/>
         <Button variant='contained' id='submitButton' name='submitButton' type='submit'>Log In</Button>

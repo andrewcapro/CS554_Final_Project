@@ -3,7 +3,7 @@ import {useNavigate, Navigate} from 'react-router-dom'
 import {AuthContext} from '../firebase/Auth'
 import app from '../firebase/firebase';
 import axios from "axios";
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, FormControl, InputLabel, FormHelperText } from '@mui/material';
 
 function SignUp() {
     const {currentUser} = useContext(AuthContext)
@@ -40,19 +40,43 @@ function SignUp() {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <form onSubmit={handleSignUp}>
           <div className='form-group'>
-            <TextField name='userName' type="text" id="outlined-basic" label="Username" required variant="outlined"/>
+          <FormControl>
+            <InputLabel  shrink={true} htmlFor="username">Username</InputLabel>
+            <TextField name="userName" type="text" id="username" required variant="filled" />
+            <FormHelperText id="username-helper-text" aria-live="polite">
+              Enter your username
+            </FormHelperText>
+          </FormControl>
           </div>
           <br/>
           <div className='form-group'>
-            <TextField name='email' type="email" id="outlined-basic" label="Email" required variant="outlined"/>
+          <FormControl>
+            <InputLabel shrink={true} htmlFor="email">Email</InputLabel>
+            <TextField name='email' type="email" id="email" required variant="filled"/>
+            <FormHelperText id="email-helper-text" aria-live="polite">
+              Enter your email
+            </FormHelperText>
+          </FormControl>
           </div>
           <br/>
           <div className='form-group'>
-            <TextField name='passwordOne' type="password" id="outlined-basic" label="Password" required variant="outlined"/>
+          <FormControl>
+            <InputLabel shrink={true} htmlFor="passwordOne">Password</InputLabel>
+            <TextField name='passwordOne' type="password" id="passwordOne" required variant="filled"/>
+            <FormHelperText id="passwordTwo-helper-text" aria-live="polite">
+              Enter your password
+            </FormHelperText>
+          </FormControl>
           </div>
           <br/>
           <div className='form-group'>
-            <TextField name='passwordTwo' type="password" id="outlined-basic" label="Confirm Password" required variant="outlined"/>
+          <FormControl>
+            <InputLabel shrink={true} htmlFor="passwordTwo">Confirm Password</InputLabel>
+            <TextField name='passwordTwo' type="password" id="passwordTwo" required variant="filled"/>
+            <FormHelperText id="passwordTwo-helper-text" aria-live="polite">
+              Confirm your password
+            </FormHelperText>
+          </FormControl>
           </div>
           <br/>
           <Button variant='contained' id='submitButton' name='submitButton' type='submit'>

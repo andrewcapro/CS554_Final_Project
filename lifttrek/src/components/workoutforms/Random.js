@@ -76,6 +76,7 @@ function Random() {
           value={selectedOptions.exerciseType}
           label="exerciseType" id="exerciseType-select"
           onChange={handleChange}
+          variant="standard"
         >
           <MenuItem value="powerlifting">Powerlifting</MenuItem>
           <MenuItem value="strength">Strength</MenuItem>
@@ -90,6 +91,7 @@ function Random() {
           value={selectedOptions.musclesArray}
           label="musclesArray" id="musclesArray"
           onChange={handleChange}
+          variant="standard"
         >
           <MenuItem value={JSON.stringify(push)}>Push</MenuItem>
           <MenuItem value={JSON.stringify(pull)}>Pull</MenuItem>
@@ -105,6 +107,7 @@ function Random() {
           value={selectedOptions.difficulty}
           label="difficulty" id="difficulty"
           onChange={handleChange}
+          variant="standard"
         >
           <MenuItem value="beginner">Beginner</MenuItem>
           <MenuItem value="intermediate">Intermediate</MenuItem>

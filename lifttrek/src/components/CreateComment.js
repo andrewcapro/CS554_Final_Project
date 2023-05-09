@@ -30,7 +30,8 @@ function CreateComment(props) {
             onChange={(e) => handleCommentChange(e)}
             id="body"
             name="body"
-            label="Comment">
+            label="Comment"
+            variant="standard">
             </TextField>
         <br></br>
         <br></br>

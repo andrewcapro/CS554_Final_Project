@@ -141,6 +141,7 @@ function CreatePost() {
               id="Title1" 
               label="Title" 
               required
+              variant="standard"
             />
             <br/>
             <TextField 
@@ -149,6 +150,7 @@ function CreatePost() {
               id="Body1" 
               label="Body" 
               required
+              variant="standard"
             />
             <br/>
             <Button style={{ marginLeft: '10px' }} id="submitButton" variant="contained" onClick={makeTextPost}>
@@ -170,6 +172,7 @@ function CreatePost() {
               id="Title2" 
               label="Title" 
               required
+              variant="standard"
             />
             <br/>
             <Input 
@@ -204,6 +207,7 @@ function CreatePost() {
               id="Title3"
               label="Title"
               required
+              variant="standard"
             />
             <br/>
             <InputLabel id="workout-select-label">Workout</InputLabel>
@@ -214,6 +218,7 @@ function CreatePost() {
               onChange={handleWorkoutChange}
               value={selectedWorkout.value}
               style={{ minWidth: 200, marginTop: 5, marginBottom: 5, textAlign: 'center' }}
+              variant="standard"
             >
               <MenuItem value='-'>----------</MenuItem>
               {workoutData &&

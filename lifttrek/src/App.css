@@ -3,6 +3,10 @@ a {
   color: white;
 }
 
+span {
+  color: #767676;
+}
+
 .appHeader {
   min-height: 150px;
   display: flex;

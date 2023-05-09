@@ -108,9 +108,13 @@ function MyWorkouts() {
                     })}
                     </CardContent>
                     <div style={{ textAlign: "center" }}>
-                        <Button size="small" variant="contained" id="blueButton">
-                            <NavLink to={`/myworkouts/${id}`}>Learn More</NavLink>
-                        </Button>
+                        <Tooltip title="Learn More">
+                          <Button size="small" variant="contained" id="blueButton">
+                              <NavLink to={`/myworkouts/${id}`}>Learn More</NavLink>
+                          </Button>
+                        </Tooltip>
+
+
                         <Tooltip title="Delete">
                             <IconButton style={{ display: "inline-block" }} onClick={() => { deleteWorkout(id) }}>
                                 <DeleteIcon />
