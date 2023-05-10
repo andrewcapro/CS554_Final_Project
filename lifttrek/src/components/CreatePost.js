@@ -175,6 +175,9 @@ function CreatePost() {
               variant="standard"
             />
             <br/>
+            <label for="Image">
+              Image:
+            </label>
             <Input 
               onChange={(e) => handleImagePostChange(e)}
               id="Image"
