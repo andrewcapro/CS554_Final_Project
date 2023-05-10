@@ -108,27 +108,27 @@ function EditWorkout() {
                   {workoutData.exercises.map((exercise) => {
                     return (
                       <li key={exercise.name}>
-                        <h4>
+                        <h3>
                           {exercise.name.charAt(0).toUpperCase() + exercise.name.slice(1)}
-                        </h4>
+                        </h3>
                         <FormControl sx={{ m: 1, width: 75 }}>
                           <TextField
-                            required
                             id={`reps-label-${exercise.name}`}
                             label="Reps"
                             inputProps={{ min: 1 }}
                             type="number"
+                            variant='standard'
                             value={exercise.reps}
                             onChange={(e) => handleRepsChange(exercise.name, e)}
                           />
                         </FormControl>
                         <FormControl sx={{ m: 1, width: 75 }}>
                           <TextField
-                            required
                             id={`sets-label-${exercise.name}`}
                             label="Sets"
                             inputProps={{ min: 1 }}
                             type="number"
+                            variant='standard'
                             value={exercise.sets}
                             onChange={(e) => handleSetsChange(exercise.name, e)}
                           />

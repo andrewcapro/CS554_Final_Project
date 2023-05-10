@@ -109,8 +109,8 @@ function MyWorkouts() {
                     </CardContent>
                     <div style={{ textAlign: "center" }}>
                         <Tooltip title="Learn More">
-                          <Button size="small" variant="contained" id="blueButton">
-                              <NavLink to={`/myworkouts/${id}`}>Learn More</NavLink>
+                          <Button size="small" variant="contained" id="blueButton" >
+                              <NavLink to={`/myworkouts/${id}`} aria-label={`Learn more about ${title}`}>Learn More</NavLink>
                           </Button>
                         </Tooltip>
 
