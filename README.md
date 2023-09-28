@@ -1,4 +1,4 @@
-# CS554_Final_Project
+# CS554_Based_Project
 What is LiftTrek about? 
 Ever wanted to start working out, but did not know where to start? With countless muscles on the human body, and even more possible exercises, the options can be overwhelming and result in demotivation. With LiftTrek, you would be able to choose from a variety of muscles or muscle groups with a specific goal, and create a workout plan! At the same time, users can track their progress by uploading pictures after their workouts (with basic editing capabilities). Functioning as a form of social media, users can view exercise plans of other users and relevant images, leaving comments, likes, or adding the workout to their favorites.
 
@@ -10,7 +10,7 @@ In order to run our project, required technologies are:
 
 Redis is downloadable from the same way we have used in our course content
 Installation instructions for Graphicsmagick can best be viewed here: https://gist.github.com/sonnyit/f2dde32360b419ac65269bd5b463b5b4
-    Restart your computer after installing to get the path included in your enviornment.
+    Restart your computer after installing to get the path included in your environment.
     Please ensure that GM is working on your computer by testing with the command 'gm convert logo: logo.miff'
         This command should create an image file in your current directory. If this works, then so should our website!
 Firebase Auth and AWS S3 do not need any additional technologies, but the information for testing will provided to the TA.
